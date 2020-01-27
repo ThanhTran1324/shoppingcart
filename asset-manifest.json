@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/shoppingcart/static/js/main.d54999ec.chunk.js",
-    "main.js.map": "/shoppingcart/static/js/main.d54999ec.chunk.js.map",
+    "main.js": "/shoppingcart/static/js/main.9a1a69e9.chunk.js",
+    "main.js.map": "/shoppingcart/static/js/main.9a1a69e9.chunk.js.map",
     "runtime-main.js": "/shoppingcart/static/js/runtime-main.bd6453df.js",
     "runtime-main.js.map": "/shoppingcart/static/js/runtime-main.bd6453df.js.map",
     "static/js/2.f80098a5.chunk.js": "/shoppingcart/static/js/2.f80098a5.chunk.js",
     "static/js/2.f80098a5.chunk.js.map": "/shoppingcart/static/js/2.f80098a5.chunk.js.map",
     "index.html": "/shoppingcart/index.html",
-    "precache-manifest.b237668b951b729b815aac47bedc67a1.js": "/shoppingcart/precache-manifest.b237668b951b729b815aac47bedc67a1.js",
+    "precache-manifest.aaf27413e38c392cd07e993846896563.js": "/shoppingcart/precache-manifest.aaf27413e38c392cd07e993846896563.js",
     "service-worker.js": "/shoppingcart/service-worker.js"
   },
   "entrypoints": [
     "static/js/runtime-main.bd6453df.js",
     "static/js/2.f80098a5.chunk.js",
-    "static/js/main.d54999ec.chunk.js"
+    "static/js/main.9a1a69e9.chunk.js"
   ]
 }
