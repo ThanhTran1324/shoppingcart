@@ -35,7 +35,7 @@ export const cartRemove = id => async dispatch => {
   firebaseConnect
     .database()
     .ref(`cart/`)
-    .child(id)
+    .child(id) //id of child
     .remove();
 
   dispatch({

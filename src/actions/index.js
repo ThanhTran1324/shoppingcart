@@ -77,8 +77,7 @@ export const itemFetch = id => async dispatch => {
 };
 
 export const itemDelete = id => async dispatch => {
-  const deleteItem = await firebaseConnect.database().ref(`items/${id}1`);
-
+  const deleteItem = await firebaseConnect.database().ref(`items/${id}`);
   deleteItem
     .remove()
     .then(() => {

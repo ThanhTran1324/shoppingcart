@@ -19,17 +19,33 @@ class App extends React.Component {
           <div>
             <Header />
             <Switch>
-              <Route path="/" exact component={ItemList}></Route>
-              <Route path="/items/new" exact component={ItemNew}></Route>
-              <Route path="/items/edit/:id" exact component={ItemEdit}></Route>
+              <Route path="/shoppingcart/" exact component={ItemList}></Route>
               <Route
-                path="/items/delete/:id"
+                path="/shoppingcart/items/new"
+                exact
+                component={ItemNew}
+              ></Route>
+              <Route
+                path="/shoppingcart/items/edit/:id"
+                exact
+                component={ItemEdit}
+              ></Route>
+              <Route
+                path="/shoppingcart/items/delete/:id"
                 exact
                 component={ItemDelete}
               ></Route>
-              <Route path="/items/view/:id" exact component={ItemView}></Route>
+              <Route
+                path="/shoppingcart/items/view/:id"
+                exact
+                component={ItemView}
+              ></Route>
 
-              <Route path="/cart/view" exact component={CartView}></Route>
+              <Route
+                path="/shoppingcart/cart/view"
+                exact
+                component={CartView}
+              ></Route>
             </Switch>
           </div>
         </Router>

@@ -11,13 +11,13 @@ class Header extends React.Component {
   render() {
     return (
       <div className="ui teal four item inverted menu">
-        <Link to="/" className="active item">
+        <Link to="/shoppingcart/" className="active item">
           Home
         </Link>
-        <Link to="/items/new" className="item">
+        <Link to="/shoppingcart/items/new" className="item">
           Create Item
         </Link>
-        <Link id="cart" to="/cart/view" className="item">
+        <Link id="cart" to="/shoppingcart/cart/view" className="item">
           Cart <i className=" icon shopping cart" />
           <span className="badge">{` ( ${
             Object.values(this.props.cart).length
