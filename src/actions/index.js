@@ -52,7 +52,7 @@ export const itemCreate = formValues => async (dispatch, getState) => {
     type: ITEM_CREATE,
     payload: response
   });
-  history.push("/");
+  history.push("/shoppingcart");
 };
 
 export const itemsFetch = () => async dispatch => {
@@ -89,7 +89,7 @@ export const itemDelete = id => async dispatch => {
     .catch(error => {
       console.log(error); // need fix delete error
     });
-  history.push("/");
+  history.push("/shoppingcart");
 };
 export const itemEdit = (id, formValues) => async dispatch => {
   let editItem = firebaseConnect.database().ref(`items/${id}`);
@@ -105,5 +105,5 @@ export const itemEdit = (id, formValues) => async dispatch => {
     type: ITEM_EDIT,
     payload: response
   });
-  history.push("/");
+  history.push("/shoppingcart");
 };
