@@ -155,12 +155,3 @@ nav ul li a:hover {
   color: green;
   font-size: large;
 }
-
-.card {
-  width: 260px !important;
-}
-
-.itemListImage {
-  width: 260px !important;
-  height: 230px !important;
-}
