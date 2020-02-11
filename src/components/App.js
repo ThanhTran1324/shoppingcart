@@ -8,13 +8,13 @@ import ItemEdit from "./ItemEdit";
 import ItemDelete from "./ItemDelete";
 import ItemView from "./ItemView";
 import Header from "./Header";
-
+import Auth from "./Auth";
 import CartView from "./CartView";
 
 class App extends React.Component {
   render() {
     return (
-      <div className="ui container">
+      <div className="ui fluid container">
         <Router history={history}>
           <div>
             <Header />
@@ -46,6 +46,7 @@ class App extends React.Component {
                 exact
                 component={CartView}
               ></Route>
+              <Route path="/shoppingcart/login" exact component={Auth}></Route>
             </Switch>
           </div>
         </Router>

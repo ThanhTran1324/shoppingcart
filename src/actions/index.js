@@ -7,25 +7,39 @@ import {
   ITEM_FETCH,
   ITEM_EDIT
 } from "./types";
+import { cartClean } from "./cartActions/";
 import uuid from "uuid";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import history from "../history";
-import * as _ from "lodash";
+import firebase from "firebase";
+// import { CART_CLEAN } from "./cartActions/type";
+// import * as _ from "lodash";
 
 // var data = firebaseConnect.database().ref("/");
 
-let items = firebaseConnect.database().ref("/items");
-export const signIn = userId => {
-  return {
+let items = firebaseConnect.database().ref("items");
+export const signIn = userId => async dispatch => {
+  dispatch({
     type: SIGN_IN,
     payload: userId
-  };
+  });
+  // dispatch(cartFetch());
+  history.push("/shoppingcart");
 };
 
-export const signOut = () => {
-  return {
-    type: SIGN_OUT
-  };
+export const signOut = () => dispatch => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      console.log("Signed Out");
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  dispatch({ type: SIGN_OUT });
+  dispatch(cartClean());
+  history.push("/shoppingcart");
 };
 
 export const itemCreate = formValues => async (dispatch, getState) => {
@@ -55,16 +69,16 @@ export const itemCreate = formValues => async (dispatch, getState) => {
   history.push("/shoppingcart");
 };
 
-export const itemsFetch = () => async dispatch => {
-  var response = await items.once("value").then(snapshot => {
-    return snapshot.val();
-  });
-  //items.set(_.keyBy(response, "id")); convert array to Object to fix database
-  dispatch({
-    type: ITEMS_FETCH,
-    payload: response
+export const itemsFetch = () => dispatch => {
+  items.on("value", function(snapshot) {
+    // console.log(snapshot);
+    dispatch({
+      type: ITEMS_FETCH,
+      payload: snapshot.val()
+    });
   });
 };
+//items.set(_.keyBy(response, "id")); convert array to Object to fix database
 
 export const itemFetch = id => async dispatch => {
   let response = await items.once("value").then(snapshot => {

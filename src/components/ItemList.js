@@ -16,7 +16,7 @@ export class ItemList extends Component {
           <hr></hr>
           <div className="ui large two buttons">
             <Link
-              to={`/items/delete/${item.id}`}
+              to={`/shoppingcart/items/delete/${item.id}`}
               className="ui  negative button "
               style={{ whiteSpace: "nowrap" }}
             >
@@ -25,7 +25,7 @@ export class ItemList extends Component {
             </Link>
             <div className="or"></div>
             <Link
-              to={`/items/edit/${item.id}`}
+              to={`/shoppingcart/items/edit/${item.id}`}
               className="ui  positive button "
             >
               <i className="edit icon"></i>Edit
@@ -36,14 +36,22 @@ export class ItemList extends Component {
   };
   renderList = () => {
     return Object.values(this.props.items).map(item => {
+      // console.log(item.images);
       return (
         <div className="card  " key={item.id}>
           <div className="blurring dimmable image">
             <img
-              src="https://www.mercurynews.com/wp-content/uploads/2019/06/SJM-L-EDPRAIL16-0616-03.jpg?w=403"
+              className="imageCartList"
+              style={{ width: "100%", height: "290px", objectFit: "fill" }}
+              src={
+                item.images === undefined
+                  ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
+                  : item.images
+              }
               alt="hinh"
             ></img>
           </div>
+
           <div className="content">
             <div className=" ui buttons right floated">
               <button
@@ -51,7 +59,7 @@ export class ItemList extends Component {
                 onClick={() => this.props.cartAdd(item)}
               >
                 <i className="shopping cart icon"></i>
-                Add to cart
+                Add
               </button>
             </div>
             <div className="header" style={{ overflow: "hidden" }}>
@@ -83,8 +91,8 @@ export class ItemList extends Component {
   };
   render() {
     return (
-      <div className="ui container  ">
-        <div className="ui special centered cards ">{this.renderList()}</div>
+      <div className="ui fluid container  " style={{ marginTop: "5px" }}>
+        <div className="ui special cards centered">{this.renderList()}</div>
       </div>
     );
   }

@@ -9,7 +9,18 @@ class ItemNew extends Component {
     this.props.itemCreate(formValue);
   };
   render() {
-    return <ItemForm onSubmit={this.onSubmit}></ItemForm>;
+    if (this.props.isSignedIn)
+      return <ItemForm onSubmit={this.onSubmit}></ItemForm>;
+    else {
+      return (
+        <div className="ui  container ">Please Login To Create New Item !</div>
+      );
+    }
   }
 }
-export default connect(null, { itemCreate })(ItemNew);
+const mapStateToProps = state => {
+  return {
+    isSignedIn: state.auth.isSignedIn
+  };
+};
+export default connect(mapStateToProps, { itemCreate })(ItemNew);

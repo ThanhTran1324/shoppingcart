@@ -11,7 +11,7 @@ class ItemDelete extends Component {
   actions = () => {
     return (
       <React.Fragment>
-        <Link to="/" className="ui button">
+        <Link to="/shoppingcart" className="ui button">
           Cancel
         </Link>
         <button

@@ -15,7 +15,6 @@ class ItemEdit extends Component {
     this.props.itemEdit(this.id, formValues);
   };
   render() {
-    console.log(this.props.item);
     if (this.props.item)
       return (
         <ItemForm

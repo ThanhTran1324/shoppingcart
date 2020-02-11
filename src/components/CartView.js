@@ -1,33 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 //import { Link } from "react-router-dom";
-import { cartRemove, cartsFetch } from "../actions/cartActions";
+import { cartRemove, cartFetch } from "../actions/cartActions";
 export class CartView extends Component {
   componentDidMount() {
-    this.props.cartsFetch();
+    this.props.cartFetch();
   }
   renderList = () => {
-    return Object.values(this.props.cart).map(item => {
-      return (
-        <div key={item.id} className="item">
-          {item.name}/${item.price}
-          <div className=" ui buttons right floated">
-            <button
-              onClick={() => this.props.cartRemove(item.id)}
-              className="ui negative button right floated"
-            >
-              Remove
-            </button>
+    if (this.props.cart !== null)
+      return Object.values(this.props.cart).map(item => {
+        return (
+          <div key={item.id} className="item">
+            {item.name}/${item.price}
+            <div className=" ui buttons right floated">
+              <button
+                onClick={() => this.props.cartRemove(item.id)}
+                className="ui negative button right floated"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-        </div>
-      );
-    });
+        );
+      });
+    else return <div>Your Cart is empty !</div>;
   };
   total = () => {
     var total = 0;
-    Object.values(this.props.cart).map(item => {
-      return (total += parseInt(item.price));
-    });
+    if (this.props.cart !== null)
+      Object.values(this.props.cart).map(item => {
+        return (total += parseInt(item.price));
+      });
     return total;
   };
 
@@ -48,4 +51,4 @@ const mapStateToProps = state => {
     cart: state.cart
   };
 };
-export default connect(mapStateToProps, { cartRemove, cartsFetch })(CartView);
+export default connect(mapStateToProps, { cartRemove, cartFetch })(CartView);
