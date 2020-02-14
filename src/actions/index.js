@@ -24,7 +24,6 @@ export const signIn = userId => async dispatch => {
     payload: userId
   });
   // dispatch(cartFetch());
-  history.push("/shoppingcart");
 };
 
 export const signOut = () => dispatch => {

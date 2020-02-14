@@ -7,43 +7,61 @@ export class CartView extends Component {
     this.props.cartFetch();
   }
   renderList = () => {
-    if (this.props.cart !== null)
-      return Object.values(this.props.cart).map(item => {
-        return (
-          <div key={item.id} className="item">
-            {item.name}/${item.price}
-            <div className=" ui buttons right floated">
-              <button
-                onClick={() => this.props.cartRemove(item.id)}
-                className="ui negative button right floated"
-              >
-                Remove
-              </button>
+    return Object.values(this.props.cart).map(item => {
+      return (
+        <div key={item.id} className="item">
+          {/* {item.name}/${item.price} */}
+          <div style={{ color: "#FF9200", float: "right" }}>/${item.price}</div>
+          <img
+            className="ui avatar image"
+            src={item.images}
+            alt={item.name}
+          ></img>
+
+          <div className="content">
+            <div
+              className="header"
+              style={{ color: "#0167C0", textTransform: "capitalize" }}
+            >
+              {item.name}
             </div>
+            <button
+              onClick={() => this.props.cartRemove(item.id)}
+              className="ui  mini  button "
+            >
+              Remove
+            </button>
           </div>
-        );
-      });
-    else return <div>Your Cart is empty !</div>;
+        </div>
+      );
+    });
   };
   total = () => {
-    var total = 0;
+    var totalprice = 0;
     if (this.props.cart !== null)
       Object.values(this.props.cart).map(item => {
-        return (total += parseInt(item.price));
+        return (totalprice += parseInt(item.price));
       });
-    return total;
+    return (
+      <span style={{ color: "#FF9200", fontSize: "30px" }}> ${totalprice}</span>
+    );
   };
 
   render() {
-    return (
-      <div>
-        <div className="ui celled list">{this.renderList()}</div>
-        <div className="ui right floated">
-          <h3> Total: ${this.total()}</h3>
+    if (this.props.cart !== null) {
+      return (
+        <div className="ui container">
+          <div className="ui celled massive list">{this.renderList()}</div>
+
+          <h3 style={{ display: "inline" }}>
+            Subtotal ({Object.keys(this.props.cart).length} item):
+          </h3>
+          {this.total()}
+
           <button className="fluid ui button positive ">Pay</button>
         </div>
-      </div>
-    );
+      );
+    } else return <div>Your Cart is empty !</div>;
   }
 }
 const mapStateToProps = state => {

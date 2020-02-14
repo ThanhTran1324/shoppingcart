@@ -7,53 +7,62 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
 // import GoogleAuth from "./GoogleAuth";
-
+import history from "../history";
 class Auth extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: ""
+      error: "",
+      showVerifyPassword: false
     };
   }
 
   renderInput = ({ input, meta, label, type }) => {
     const confirmError = meta.error && meta.touched;
-    const errorClassName = `field ${confirmError ? `error` : ``}`;
-
+    const errorClassName = `field textbox ${confirmError ? `error` : ``}`;
     return (
       <div className={errorClassName}>
         <label>
           {label}
           {`${confirmError ? meta.error : ""}`}
         </label>
-        <input {...input} type={type} />
+        <input {...input} type={type} autoComplete={input.name} />
       </div>
     );
   };
   onSubmit = formValue => {
-    // console.log(formValue);
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(formValue.email, formValue.password)
-      .then(result => {
-        this.setState({ error: "Login Success" });
-
-        this.props.signIn(result.user.uid);
-      })
-      .catch(error => {
-        // Handle Errors here.
-        var errorCode = error.code;
-
-        // console.log(errorCode);
-        // var errorMessage = error.message;
-
-        this.setState({ error: errorCode });
-        // ...
-        // console.log( "message:", errorMessage);
-      });
+    //--------Log In--------
+    if (!this.state.showVerifyPassword)
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(formValue.email, formValue.password)
+        .then(result => {
+          this.setState({ error: "Login Success" });
+          history.push("/shoppingcart");
+        })
+        .catch(error => {
+          // Handle Errors here.
+          var errorCode = error.code;
+          this.setState({ error: errorCode });
+        });
+    //--------Sign Up--------
+    else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(formValue.email, formValue.password)
+        .then(result => {
+          //Created User
+          history.push(`/shoppingcart`);
+        })
+        .catch(error => {
+          //Handle Erros here
+          var errorCode = error.code;
+          this.setState({ error: errorCode });
+        });
+    }
   };
   renderErrorFromServer = () => {
-    console.log(this.state.error);
+    // console.log(this.state.error);
     switch (this.state.error) {
       case "auth/user-not-found":
       case "auth/wrong-password":
@@ -85,33 +94,79 @@ class Auth extends Component {
         // ...
       });
   };
+
+  renderVerifyPassword = () => {
+    if (this.state.showVerifyPassword) {
+      return (
+        <Field
+          type="password"
+          name="verifyPassword"
+          label="Verify Password"
+          component={this.renderInput}
+        ></Field>
+      );
+    }
+  };
+  SignInSignUpSwitch = value => {
+    this.setState({ showVerifyPassword: value });
+  };
   render() {
     return (
-      <div className="ui container">
-        <form
-          onSubmit={this.props.handleSubmit(this.onSubmit)}
-          className="ui form error"
-        >
-          <Field
-            name="email"
-            label="Email"
-            type="username"
-            component={this.renderInput}
-          ></Field>
-          <Field
-            type="password"
-            name="password"
-            label="Password"
-            component={this.renderInput}
-          ></Field>
-          {this.renderErrorFromServer()}
-          <button type="submit" className="ui green approve right button">
-            Login
+      <div className="ui  container ">
+        <div className="login-container">
+          <div className="login-box">
+            <div className="ui equal width center aligned padded grid">
+              <div className="row">
+                <div
+                  className=" green column"
+                  onClick={() => this.SignInSignUpSwitch(false)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Sign In
+                </div>
+                <div
+                  className="blue column"
+                  onClick={() => this.SignInSignUpSwitch(true)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Sign Up
+                </div>
+              </div>
+            </div>
+            <form
+              onSubmit={this.props.handleSubmit(this.onSubmit)}
+              className="ui form error"
+            >
+              <Field
+                name="email"
+                label="Email"
+                component={this.renderInput}
+              ></Field>
+              <Field
+                type="password"
+                name="password"
+                label="Password"
+                component={this.renderInput}
+              ></Field>
+              {this.renderVerifyPassword()}
+              {this.renderErrorFromServer()}
+              <button
+                type="submit"
+                className={`ui approve  button  my-login-button ${
+                  this.state.showVerifyPassword ? `blue` : `green`
+                }`}
+              >
+                {this.state.showVerifyPassword ? `Sign Up` : `Log In`}
+              </button>
+            </form>
+          </div>
+          <button
+            onClick={this.googleLogin}
+            className="ui red google button my-google-login"
+          >
+            <i className="google icon"></i>Google Login
           </button>
-        </form>
-        <button onClick={this.googleLogin} className="ui red google button">
-          <i className="google icon"></i>Login With Google
-        </button>
+        </div>
       </div>
     );
   }
@@ -120,9 +175,12 @@ const validate = formValue => {
   const error = {};
   const mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   if (!formValue.email) error.email = " Requite Value !";
-  else if (!formValue.email.match(mailformat))
-    error.email = " Wrong Email Format !";
+  else if (!formValue.email.match(mailformat)) error.email = " Wrong Format !";
   if (!formValue.password) error.password = " Requite Value !";
+
+  if (formValue.verifyPassword !== formValue.password)
+    error.verifyPassword = " : Wrong Verify Password";
+  if (!formValue.verifyPassword) error.verifyPassword = " Requite Value !";
 
   return error;
 };

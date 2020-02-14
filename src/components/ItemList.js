@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { itemsFetch } from "../actions";
 import { cartAdd } from "../actions/cartActions";
-
+import SortAndFilter from "./SortAndFilter";
 export class ItemList extends Component {
   componentDidMount() {
     this.props.itemsFetch();
@@ -17,7 +17,7 @@ export class ItemList extends Component {
           <div className="ui large two buttons">
             <Link
               to={`/shoppingcart/items/delete/${item.id}`}
-              className="ui  negative button "
+              className="ui inverted red button "
               style={{ whiteSpace: "nowrap" }}
             >
               <i className="icon trash alternate" />
@@ -26,7 +26,7 @@ export class ItemList extends Component {
             <div className="or"></div>
             <Link
               to={`/shoppingcart/items/edit/${item.id}`}
-              className="ui  positive button "
+              className="ui inverted blue button "
             >
               <i className="edit icon"></i>Edit
             </Link>
@@ -39,10 +39,17 @@ export class ItemList extends Component {
       // console.log(item.images);
       return (
         <div className="card  " key={item.id}>
-          <div className="blurring dimmable image">
+          <div
+            className="blurring dimmable image "
+            style={{ overflow: "hidden" }}
+          >
             <img
-              className="imageCartList"
-              style={{ width: "100%", height: "290px", objectFit: "fill" }}
+              className="imageCartList  "
+              style={{
+                width: "100%",
+                height: "290px",
+                objectFit: "fill"
+              }}
               src={
                 item.images === undefined
                   ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
@@ -62,11 +69,19 @@ export class ItemList extends Component {
                 Add
               </button>
             </div>
-            <div className="header" style={{ overflow: "hidden" }}>
+            <div
+              className="header"
+              style={{ overflow: "hidden", textTransform: "capitalize" }}
+            >
               {item.name}
             </div>
             <div className="meta">
-              <span className="price">${item.price}</span>
+              <span
+                className="price"
+                style={{ color: "#FF9200", fontSize: "18px" }}
+              >
+                ${item.price}
+              </span>
             </div>
 
             <div className="extra content">{this.renderAdmin(item)}</div>
@@ -93,6 +108,7 @@ export class ItemList extends Component {
     return (
       <div className="ui fluid container  " style={{ marginTop: "5px" }}>
         <div className="ui special cards centered">{this.renderList()}</div>
+        <SortAndFilter></SortAndFilter>
       </div>
     );
   }

@@ -10,6 +10,7 @@ class ItemForm extends Component {
     uploadPercent: 0,
     imageName: null
   };
+
   renderInput = ({ input, meta, label, type }) => {
     const confirmError = meta.error && meta.touched;
     const errorClassName = `field ${confirmError ? `error` : ``}`;
@@ -92,7 +93,7 @@ class ItemForm extends Component {
   };
 
   fileSelectedHandler = event => {
-    if (event.target.files.length >= 0) {
+    if (event.target.files.length > 0) {
       this.setState({ imageName: event.target.files[0].name });
       this.convertImage(event.target.files[0]);
       document.getElementById("submitButton").disabled = true; //disable submit button , wait for click upload
@@ -126,6 +127,9 @@ class ItemForm extends Component {
   };
 
   onSubmit = formValue => {
+    //get time created of item
+    var date = new Date();
+    formValue.timeCreated = date.getTime();
     formValue.images = this.state.imageLink;
     formValue.price = parseInt(formValue.price);
     this.props.onSubmit(formValue);
