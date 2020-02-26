@@ -155,3 +155,8 @@ nav ul li a:hover {
   color: green;
   font-size: large;
 }
+
+.my_forgot_password_text {
+  text-transform: uppercase;
+  color: red;
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 //import { Link } from "react-router-dom";
 import { cartRemove, cartFetch } from "../actions/cartActions";
+import PaypalButton from "./PaypalButton";
 export class CartView extends Component {
   componentDidMount() {
     this.props.cartFetch();
@@ -59,6 +60,7 @@ export class CartView extends Component {
           {this.total()}
 
           <button className="fluid ui button positive ">Pay</button>
+          <PaypalButton></PaypalButton>
         </div>
       );
     } else return <div>Your Cart is empty !</div>;

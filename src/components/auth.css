@@ -97,3 +97,11 @@ body {
 
     }
 }
+
+.my_forgot_password_text {
+    text-transform: capitalize;
+    color: gray;
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-block
+}

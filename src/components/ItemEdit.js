@@ -8,7 +8,28 @@ import { itemFetch, itemEdit } from "../actions";
 class ItemEdit extends Component {
   componentDidMount() {
     this.props.itemFetch(this.props.match.params.id);
+
+    //fix createdTime of item
+    // Object.values(this.props.items).map(item => {
+    //   if (!item.createdTime) {
+    //     var date = new Date();
+    //     var TimeInMiliSecond = date.getTime();
+    //     var newItem = { ...item, createdTime: TimeInMiliSecond };
+    //     this.props.itemEdit(newItem.id, newItem);
+    //     console.log("edited");
+    //   }
+    // });
+
+    // add createdTime to Database
+    // Object.values(this.props.items).map(item => {
+    //   var date = new Date();
+    //   var TimeInMiliSecond = date.getTime();
+    //   var newItem = { ...item, createdTime: TimeInMiliSecond };
+    //   this.props.itemEdit(newItem.id, newItem);
+    //   console.log("edited");
+    // });
   }
+
   id = this.props.match.params.id;
 
   onSubmit = formValues => {
@@ -28,7 +49,8 @@ class ItemEdit extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    item: state.items[ownProps.match.params.id]
+    item: state.items[ownProps.match.params.id],
+    items: state.items
   };
 };
 export default connect(mapStateToProps, { itemFetch, itemEdit })(ItemEdit);

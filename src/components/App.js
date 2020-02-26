@@ -10,6 +10,7 @@ import ItemView from "./ItemView";
 import Header from "./Header";
 import Auth from "./Auth";
 import CartView from "./CartView";
+import ForGotPassword from "./ForGotPassword";
 
 class App extends React.Component {
   render() {
@@ -47,6 +48,11 @@ class App extends React.Component {
                 component={CartView}
               ></Route>
               <Route path="/shoppingcart/login" exact component={Auth}></Route>
+              <Route
+                path="/shoppingcart/forgotpassword"
+                exact
+                component={ForGotPassword}
+              ></Route>
             </Switch>
           </div>
         </Router>

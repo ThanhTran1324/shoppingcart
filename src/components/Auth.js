@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import firebase from "firebase";
 // import firebaseui from "firebaseui";
+import { Link } from "react-router-dom";
 
 import "./auth.css";
 import { Field, reduxForm } from "redux-form";
@@ -82,6 +83,7 @@ class Auth extends Component {
         // // The signed-in user info.
         // var user = result.user;
         // ...
+        if (result.user) history.push("/shoppingcart");
       })
       .catch(function(error) {
         // Handle Errors here.
@@ -107,6 +109,18 @@ class Auth extends Component {
       );
     }
   };
+  renderForgetPassword = () => {
+    if (!this.state.showVerifyPassword) {
+      return (
+        <Link
+          to="/shoppingcart/forgotpassword"
+          className="my_forgot_password_text"
+        >
+          Forgot Your Password
+        </Link>
+      );
+    }
+  };
   SignInSignUpSwitch = value => {
     this.setState({ showVerifyPassword: value });
   };
@@ -122,7 +136,7 @@ class Auth extends Component {
                   onClick={() => this.SignInSignUpSwitch(false)}
                   style={{ cursor: "pointer" }}
                 >
-                  Sign In
+                  Welcome Back
                 </div>
                 <div
                   className="blue column"
@@ -148,6 +162,7 @@ class Auth extends Component {
                 label="Password"
                 component={this.renderInput}
               ></Field>
+              {this.renderForgetPassword()}
               {this.renderVerifyPassword()}
               {this.renderErrorFromServer()}
               <button

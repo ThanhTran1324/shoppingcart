@@ -129,9 +129,9 @@ class ItemForm extends Component {
   onSubmit = formValue => {
     //get time created of item
     var date = new Date();
-    formValue.timeCreated = date.getTime();
+    formValue.createdTime = date.getTime();
     formValue.images = this.state.imageLink;
-    formValue.price = parseInt(formValue.price);
+    formValue.price = parseFloat(formValue.price);
     this.props.onSubmit(formValue);
   };
   render() {

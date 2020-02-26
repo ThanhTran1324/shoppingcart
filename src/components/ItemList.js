@@ -105,12 +105,26 @@ export class ItemList extends Component {
     });
   };
   render() {
-    return (
-      <div className="ui fluid container  " style={{ marginTop: "5px" }}>
-        <div className="ui special cards centered">{this.renderList()}</div>
-        <SortAndFilter></SortAndFilter>
-      </div>
-    );
+    if (Object.keys(this.props.items).length === 0) {
+      return (
+        <div className="ui fluid container ">
+          <div className="ui segment">
+            <div className="ui active dimmer" style={{ height: "100vh" }}>
+              <div className="ui massive text loader">Loading...</div>
+            </div>
+            <p></p>
+            <p></p>
+            <p></p>
+          </div>
+        </div>
+      );
+    } else
+      return (
+        <div className="ui fluid container  " style={{ marginTop: "5px" }}>
+          <SortAndFilter></SortAndFilter>
+          <div className="ui special cards centered">{this.renderList()}</div>
+        </div>
+      );
   }
 }
 const mapStateToProps = state => {

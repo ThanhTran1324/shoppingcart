@@ -5,7 +5,9 @@ import {
   ITEMS_FETCH,
   ITEM_DELETE,
   ITEM_FETCH,
-  ITEM_EDIT
+  ITEM_EDIT,
+  ITEM_SORTED,
+  ITEM_FILTERED
 } from "./types";
 import { cartClean } from "./cartActions/";
 import uuid from "uuid";
@@ -13,7 +15,7 @@ import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import history from "../history";
 import firebase from "firebase";
 // import { CART_CLEAN } from "./cartActions/type";
-// import * as _ from "lodash";
+import * as _ from "lodash";
 
 // var data = firebaseConnect.database().ref("/");
 
@@ -68,24 +70,32 @@ export const itemCreate = formValues => async (dispatch, getState) => {
   history.push("/shoppingcart");
 };
 
-export const itemsFetch = () => dispatch => {
-  items.on("value", function(snapshot) {
-    // console.log(snapshot);
-    dispatch({
-      type: ITEMS_FETCH,
-      payload: snapshot.val()
-    });
+export const itemsFetch = () => async dispatch => {
+  let response = await items.once("value").then(function(snapshot) {
+    return snapshot.val();
   });
+  dispatch({
+    type: ITEMS_FETCH,
+    payload: response
+  });
+  dispatch(itemSorted("time", "1")); //sort item as new first after fetch
 };
 //items.set(_.keyBy(response, "id")); convert array to Object to fix database
 
 export const itemFetch = id => async dispatch => {
-  let response = await items.once("value").then(snapshot => {
-    return snapshot.val()[id]; //access to Object and get value with key = id
-  });
+  // let response = await items.once("value").then(snapshot => {
+  //   return snapshot.val()[id]; //access to Object and get value with key = id
+  // });
+  let response = await items
+    .orderByChild("id")
+    .equalTo(id)
+    .once("value")
+    .then(function(snapshot) {
+      return snapshot.val();
+    });
   dispatch({
     type: ITEM_FETCH,
-    payload: response
+    payload: response[id]
   });
 };
 
@@ -119,4 +129,79 @@ export const itemEdit = (id, formValues) => async dispatch => {
     payload: response
   });
   history.push("/shoppingcart");
+};
+
+export const itemSorted = (name, value) => (dispatch, getState) => {
+  //sortedItems is an array sent to reducer, reducer will convert to Object
+  console.log(name, value);
+  let sortedItems = [];
+  let originalItems = getState().items;
+  switch (name) {
+    //sort by name
+    case "name":
+      if (value === "0") {
+        //sort from a to z
+        sortedItems = _.sortBy(Object.values(originalItems), [
+          function(o) {
+            return o.name;
+          }
+        ]);
+      } else {
+        //sort from z to a
+        sortedItems = _.sortBy(Object.values(originalItems), [
+          function(o) {
+            return o.name;
+          }
+        ]).reverse();
+      }
+      break;
+
+    //end sort by name
+    case "price":
+      if (value === "0") {
+        //sort from low price to hight price
+        sortedItems = Object.values(originalItems).sort(
+          (a, b) => a.price - b.price
+        );
+        console.log("low to high");
+      } else {
+        //sort from high to low price
+        sortedItems = Object.values(originalItems)
+          .sort((a, b) => a.price - b.price)
+          .reverse();
+      }
+      break;
+    case "time":
+      if (value === "0") {
+        //sort from old to new
+        sortedItems = Object.values(originalItems).sort((a, b) => {
+          return a.createdTime - b.createdTime;
+        });
+      } else {
+        //sort from new to old
+        sortedItems = Object.values(originalItems)
+          .sort((a, b) => {
+            return a.createdTime - b.createdTime;
+          })
+          .reverse();
+      }
+      break;
+    default:
+      console.log("no sort");
+  }
+  dispatch({
+    type: ITEM_SORTED,
+    payload: sortedItems
+  });
+};
+
+export const itemSearch = formValues => (dispatch, getState) => {
+  let items = getState().items;
+  let keyword = formValues.search;
+  //filter function
+  let filteredItem = [];
+  dispatch({
+    type: ITEM_FILTERED,
+    payload: filteredItem
+  });
 };
