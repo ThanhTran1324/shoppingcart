@@ -40,7 +40,7 @@ export class PaypalButton extends Component {
     }
   };
   render() {
-    return <div id="paypal-button-container">asd</div>;
+    return <div id="paypal-button-container">asasdasdd</div>;
   }
 }
 
