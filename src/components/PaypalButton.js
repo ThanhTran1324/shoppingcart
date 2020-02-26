@@ -43,5 +43,5 @@ export class PaypalButton extends Component {
     return <div id="paypal-button-container">asd</div>;
   }
 }
-
+//changed from master
 export default PaypalButton;
