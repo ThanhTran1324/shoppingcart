@@ -17,17 +17,19 @@ export const cartAdd = item => async (dispatch, getState) => {
 
 export const cartFetch = () => async (dispatch, getState) => {
   const userId = await getState().auth.userId;
-
+  let response = {};
   if (userId !== null) {
-    firebaseConnect
+    response = await firebaseConnect
       .database()
       .ref(`/cart/Cart-${userId}`)
-      .on("value", function(snapshot) {
-        dispatch({
-          type: CART_FETCH,
-          payload: snapshot.val()
-        });
+      .once("value")
+      .then(function(dataSnapshot) {
+        return dataSnapshot.val();
       });
+    dispatch({
+      type: CART_FETCH,
+      payload: response
+    });
   }
 };
 

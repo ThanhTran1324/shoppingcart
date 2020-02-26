@@ -1,47 +1,55 @@
-import React, { Component } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-export class PaypalButton extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      paidFor: false,
-      loaded: false
-    };
+function PaypalButton(drops) {
+  console.log(drops);
+  const [paidFor, setPaidFor] = useState(false);
+  const [error, setError] = useState(null);
+  const paypalRef = useRef();
+
+  useEffect(() => {
+    window.paypal
+      .Buttons({
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [
+              {
+                description: drops.description,
+                amount: {
+                  currency_code: "USD",
+                  value: drops.price
+                }
+              }
+            ]
+          });
+        },
+        onApprove: async (data, actions) => {
+          const order = await actions.order.capture();
+          setPaidFor(true);
+          console.log(order);
+        },
+        onError: err => {
+          setError(err);
+          console.error(err);
+        }
+      })
+      .render(paypalRef.current);
+  }, [drops.description, drops.price]);
+
+  if (paidFor) {
+    return (
+      <div>
+        <h1>Congrats, you just bought {drops.name}!</h1>
+      </div>
+    );
   }
 
-  componentDidMount = () => {
-    const script = document.createElement("script");
-    script.src = `https://www.paypal.com/sdk/js?client-id=AYI5Th6t7An5aFVx5rkUvvbo68XhT-ol3iXLVdyBbkiTzYUo9RaNZJoCcpVUKv3fGNQnGXzpF3J_Bd4a`;
-    script.addEventListener("load", () => this.setState({ loaded: true }));
-    document.body.appendChild(script);
+  return (
+    <div>
+      {error && <div>Uh oh, an error occurred! {error.message}</div>}
 
-    if (this.state.loaded) {
-      setTimeout(() => {
-        window.paypal
-          .Button({
-            createOrder: (data, actions) => {
-              return actions.order.create({
-                purchage_units: [
-                  {
-                    description: "thanh shopping item",
-                    currency_code: "USD",
-                    value: 1
-                  }
-                ]
-              });
-            },
-            onApprove: async (data, actions) => {
-              const order = await actions.order.capture();
-              console.log(order);
-            }
-          })
-          .render(`#paypal-button-container`);
-      });
-    }
-  };
-  render() {
-    return <div id="paypal-button-container">asasdasdd</div>;
-  }
+      <div ref={paypalRef} />
+    </div>
+  );
 }
 
 export default PaypalButton;

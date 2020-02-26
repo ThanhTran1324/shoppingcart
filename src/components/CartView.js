@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { cartRemove, cartFetch } from "../actions/cartActions";
 import PaypalButton from "./PaypalButton";
 export class CartView extends Component {
+  state = {
+    total: 5
+  };
+
   componentDidMount() {
     this.props.cartFetch();
   }
@@ -37,17 +41,25 @@ export class CartView extends Component {
       );
     });
   };
-  total = () => {
+  renderTotal = () => {
     var totalprice = 0;
-    if (this.props.cart !== null)
+    if (this.props.cart !== null) {
       Object.values(this.props.cart).map(item => {
         return (totalprice += parseInt(item.price));
       });
+    }
+
     return (
       <span style={{ color: "#FF9200", fontSize: "30px" }}> ${totalprice}</span>
     );
   };
-
+  countTotal = () => {
+    let totalprice = 0;
+    Object.values(this.props.cart).map(item => {
+      return (totalprice += parseInt(item.price));
+    });
+    return totalprice;
+  };
   render() {
     if (this.props.cart !== null) {
       return (
@@ -57,10 +69,15 @@ export class CartView extends Component {
           <h3 style={{ display: "inline" }}>
             Subtotal ({Object.keys(this.props.cart).length} item):
           </h3>
-          {this.total()}
-
-          <button className="fluid ui button positive ">Pay</button>
-          <PaypalButton></PaypalButton>
+          {this.renderTotal()}
+          {this.countTotal() !== 0 ? (
+            <PaypalButton
+              description="item cui bap"
+              price={this.countTotal()}
+            ></PaypalButton>
+          ) : (
+            ""
+          )}
         </div>
       );
     } else return <div>Your Cart is empty !</div>;
