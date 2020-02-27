@@ -63,21 +63,24 @@ export class CartView extends Component {
   render() {
     if (this.props.cart !== null) {
       return (
-        <div className="ui container">
+        <div className="ui container" style={{ justifyContent: "center" }}>
           <div className="ui celled massive list">{this.renderList()}</div>
 
-          <h3 style={{ display: "inline" }}>
-            Subtotal ({Object.keys(this.props.cart).length} item):
-          </h3>
-          {this.renderTotal()}
-          {this.countTotal() !== 0 ? (
-            <PaypalButton
-              description="item cui bap"
-              price={this.countTotal()}
-            ></PaypalButton>
-          ) : (
-            ""
-          )}
+          <div className="ui container " style={{ width: "500px" }}>
+            {" "}
+            <h3>
+              Subtotal ({Object.keys(this.props.cart).length} item):
+              {this.renderTotal()}
+            </h3>
+            {this.countTotal() !== 0 ? (
+              <PaypalButton
+                description="item cui bap"
+                price={this.countTotal()}
+              ></PaypalButton>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       );
     } else return <div>Your Cart is empty !</div>;
