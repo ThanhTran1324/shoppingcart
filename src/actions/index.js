@@ -6,8 +6,7 @@ import {
   ITEM_DELETE,
   ITEM_FETCH,
   ITEM_EDIT,
-  ITEM_SORTED,
-  ITEM_FILTERED
+  ITEM_SORTED
 } from "./types";
 import { cartClean } from "./cartActions/";
 import uuid from "uuid";
@@ -192,16 +191,5 @@ export const itemSorted = (name, value) => (dispatch, getState) => {
   dispatch({
     type: ITEM_SORTED,
     payload: sortedItems
-  });
-};
-
-export const itemSearch = formValues => (dispatch, getState) => {
-  let items = getState().items;
-  let keyword = formValues.search;
-  //filter function
-  let filteredItem = [];
-  dispatch({
-    type: ITEM_FILTERED,
-    payload: filteredItem
   });
 };

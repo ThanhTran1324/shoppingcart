@@ -1,7 +1,40 @@
 import React, { Component } from "react";
 import firebase from "firebase";
+
+import LoginRequiteBanner from "./LoginRequiteBanner";
 export class ForGotPassword extends Component {
   componentWillMount = () => {};
+  content = () => {
+    return (
+      <div>
+        <h2>
+          Enter the email address for your account we'll email you a link to
+          reset your password.
+        </h2>
+        <p></p>
+        <form className="ui form">
+          <div class="field">
+            <label>Email address: </label>
+            <input
+              type="text"
+              id="email"
+              autoComplete="off"
+              style={{ width: "300px" }}
+            ></input>
+            <button
+              onClick={this.handleSubmit}
+              className="ui interted teal button "
+              style={{ marginLeft: "5px" }}
+            >
+              Sent Reset Password Email
+            </button>
+            <h2 id="output"> </h2>
+          </div>
+        </form>
+        <p></p>
+      </div>
+    );
+  };
   handleSubmit = event => {
     event.preventDefault();
     var auth = firebase.auth();
@@ -21,19 +54,10 @@ export class ForGotPassword extends Component {
   };
   render() {
     return (
-      <div className="ui container">
-        <form>
-          <label>Forgot your password ? </label>
-          <p>
-            Enter the email address for your account we'll email you a link to
-            reset your password.
-          </p>
-          <h3>Email: </h3>
-          <input type="text" id="email"></input>
-          <button onClick={this.handleSubmit}>Sent Reset Password email</button>
-          <h2 id="output"> </h2>
-        </form>
-      </div>
+      <LoginRequiteBanner
+        banner="Forgot your password ? "
+        content={this.content()}
+      ></LoginRequiteBanner>
     );
   }
 }

@@ -6,4 +6,3 @@ export const ITEMS_FETCH = "ITEMS_FETCH";
 export const ITEM_FETCH = "ITEM_FETCH";
 export const ITEM_DELETE = "ITEM_DELETE";
 export const ITEM_SORTED = "ITEM_SORTED";
-export const ITEM_FILTERED = "ITEM_FILTERED";

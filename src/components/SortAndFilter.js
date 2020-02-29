@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { itemSorted, itemSearch } from "../actions/";
-import { Field, reduxForm, formValues } from "redux-form";
+import { itemSorted } from "../actions/";
+import { Field, reduxForm } from "redux-form";
 
 export class SortAndFilter extends Component {
   renderSelecter = ({ name, input, label, option }) => {
@@ -33,23 +33,15 @@ export class SortAndFilter extends Component {
     }
   };
 
-  handleOnSearch = formValues => {
-    this.props.itemSearch(formValues);
-  };
+  handleOnSearch = formValues => {};
   renderSearch = ({ input, name }) => {
     return (
-      <form
-        onSubmit={this.props.handleSubmit(this.handleOnSearch)}
-        className="ui fluid category search"
-      >
-        <div className="ui icon input">
-          <input
-            {...input}
-            className="prompt"
-            type="text"
-            placeholder="Search..."
-          ></input>
-          <i className="search icon"></i>
+      <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
+        <div className="ui input " style={{ width: "100%" }}>
+          <input {...input} type="text" placeholder="Search..."></input>{" "}
+          <button className="ui button">
+            <i className="search icon"></i>
+          </button>
         </div>
       </form>
     );
@@ -98,9 +90,7 @@ const mapStateToProps = state => {
     items: state.items
   };
 };
-const wrapper = connect(mapStateToProps, { itemSorted, itemSearch })(
-  SortAndFilter
-);
+const wrapper = connect(mapStateToProps, { itemSorted })(SortAndFilter);
 export default reduxForm({
   form: "SortAndFilterForm"
 })(wrapper);

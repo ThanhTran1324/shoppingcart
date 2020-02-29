@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { itemsFetch } from "../actions";
 import { cartAdd } from "../actions/cartActions";
 import SortAndFilter from "./SortAndFilter";
+
 export class ItemList extends Component {
   componentDidMount() {
     this.props.itemsFetch();
@@ -105,7 +106,11 @@ export class ItemList extends Component {
     });
   };
   render() {
-    if (Object.keys(this.props.items).length === 0) {
+    console.log(this.props.sortAndFilterFormValue);
+    if (
+      Object.keys(this.props.items).length === 0 &&
+      !this.props.sortAndFilterFormValue
+    ) {
       return (
         <div className="ui fluid container ">
           <div className="ui segment">
@@ -130,7 +135,8 @@ export class ItemList extends Component {
 const mapStateToProps = state => {
   return {
     items: state.items,
-    currentUserId: state.auth.userId
+    currentUserId: state.auth.userId,
+    sortAndFilterFormValue: state.form.SortAndFilterForm
   };
 };
 export default connect(mapStateToProps, { itemsFetch, cartAdd })(ItemList);

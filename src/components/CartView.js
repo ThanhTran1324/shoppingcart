@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 //import { Link } from "react-router-dom";
 import { cartRemove, cartFetch } from "../actions/cartActions";
 import PaypalButton from "./PaypalButton";
+import LoginRequiteBanner from "./LoginRequiteBanner";
 export class CartView extends Component {
   state = {
-    total: 5
+    total: 0
   };
 
   componentDidMount() {
@@ -60,35 +62,58 @@ export class CartView extends Component {
     });
     return totalprice;
   };
+  LoginRequiteContent = () => {
+    return (
+      <div>
+        Please{" "}
+        {
+          <Link className="ui teal button" to="/shoppingcart/login">
+            Login
+          </Link>
+        }{" "}
+        To Start Shopping!
+      </div>
+    );
+  };
   render() {
-    if (this.props.cart !== null) {
-      return (
-        <div className="ui container" style={{ justifyContent: "center" }}>
-          <div className="ui celled massive list">{this.renderList()}</div>
+    if (this.props.isSignedIn) {
+      if (this.props.cart !== null) {
+        return (
+          <div className="ui container" style={{ justifyContent: "center" }}>
+            <div className="ui celled massive list">{this.renderList()}</div>
 
-          <div className="ui container " style={{ width: "500px" }}>
-            {" "}
-            <h3>
-              Subtotal ({Object.keys(this.props.cart).length} item):
-              {this.renderTotal()}
-            </h3>
-            {this.countTotal() !== 0 ? (
-              <PaypalButton
-                description="item cui bap"
-                price={this.countTotal()}
-              ></PaypalButton>
-            ) : (
-              ""
-            )}
+            <div className="ui container " style={{ width: "500px" }}>
+              {" "}
+              <h3>
+                Subtotal ({Object.keys(this.props.cart).length} item):
+                {this.renderTotal()}
+              </h3>
+              {this.countTotal() !== 0 ? (
+                <PaypalButton
+                  description="item cui bap"
+                  price={this.countTotal()}
+                ></PaypalButton>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        </div>
+        );
+      } else return <div>Your Cart is empty !</div>;
+    } else {
+      return (
+        <LoginRequiteBanner
+          banner="Please Login"
+          content={this.LoginRequiteContent()}
+        ></LoginRequiteBanner>
       );
-    } else return <div>Your Cart is empty !</div>;
+    }
   }
 }
 const mapStateToProps = state => {
   return {
-    cart: state.cart
+    cart: state.cart,
+    isSignedIn: state.auth.isSignedIn
   };
 };
 export default connect(mapStateToProps, { cartRemove, cartFetch })(CartView);
