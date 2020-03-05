@@ -14,12 +14,14 @@ class Header extends React.Component {
     });
   };
   renderCartBadge = () => {
+    let number = "0";
+
+    if (this.props.cart) number = Object.values(this.props.cart).length;
+
     return (
       <div>
         Cart <i className=" icon shopping cart" />
-        <span className="badge">{` ( ${
-          this.props.cart ? Object.values(this.props.cart).length : "0"
-        })`}</span>
+        <span className="badge">{` ( ${number})`}</span>
       </div>
     );
   };

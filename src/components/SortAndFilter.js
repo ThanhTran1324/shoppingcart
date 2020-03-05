@@ -28,18 +28,20 @@ export class SortAndFilter extends Component {
     );
   };
   handleChange = e => {
-    if (e.target !== undefined) {
+    if (e.target) {
       this.props.itemSorted(e.target.name, e.target.value);
     }
   };
 
-  handleOnSearch = formValues => {};
+  handleOnSearch = formValues => {
+    console.log(formValues);
+  };
   renderSearch = ({ input, name }) => {
     return (
       <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
         <div className="ui input " style={{ width: "100%" }}>
           <input {...input} type="text" placeholder="Search..."></input>{" "}
-          <button className="ui button">
+          <button className="ui button my-search-button">
             <i className="search icon"></i>
           </button>
         </div>

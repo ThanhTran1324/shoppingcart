@@ -13,7 +13,7 @@ export class ForGotPassword extends Component {
         </h2>
         <p></p>
         <form className="ui form">
-          <div class="field">
+          <div className="field">
             <label>Email address: </label>
             <input
               type="text"

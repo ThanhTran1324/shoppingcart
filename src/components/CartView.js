@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-//import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";//import { Link } from "react-router-dom";
 import { cartRemove, cartFetch } from "../actions/cartActions";
-import PaypalButton from "./PaypalButton";
+import MyPaypalButton from "./MyPaypalButton";
 import LoginRequiteBanner from "./LoginRequiteBanner";
 export class CartView extends Component {
   state = {
@@ -13,8 +12,8 @@ export class CartView extends Component {
   componentDidMount() {
     this.props.cartFetch();
   }
-  renderList = () => {
-    return Object.values(this.props.cart).map(item => {
+  renderList = items => {
+    return items.map(item => {
       return (
         <div key={item.id} className="item">
           {/* {item.name}/${item.price} */}
@@ -62,25 +61,15 @@ export class CartView extends Component {
     });
     return totalprice;
   };
-  LoginRequiteContent = () => {
-    return (
-      <div>
-        Please{" "}
-        {
-          <Link className="ui teal button" to="/shoppingcart/login">
-            Login
-          </Link>
-        }{" "}
-        To Start Shopping!
-      </div>
-    );
-  };
+
   render() {
     if (this.props.isSignedIn) {
       if (this.props.cart !== null) {
         return (
           <div className="ui container" style={{ justifyContent: "center" }}>
-            <div className="ui celled massive list">{this.renderList()}</div>
+            <div className="ui celled massive list">
+              {this.renderList(Object.values(this.props.cart))}
+            </div>
 
             <div className="ui container " style={{ width: "500px" }}>
               {" "}
@@ -89,10 +78,10 @@ export class CartView extends Component {
                 {this.renderTotal()}
               </h3>
               {this.countTotal() !== 0 ? (
-                <PaypalButton
+                <MyPaypalButton
                   description="item cui bap"
                   price={this.countTotal()}
-                ></PaypalButton>
+                ></MyPaypalButton>
               ) : (
                 ""
               )}
@@ -104,7 +93,7 @@ export class CartView extends Component {
       return (
         <LoginRequiteBanner
           banner="Please Login"
-          content={this.LoginRequiteContent()}
+          content="To Start Shopping"
         ></LoginRequiteBanner>
       );
     }

@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
     case CART_ADD:
       return { ...state, [action.payload.id]: action.payload };
     case CART_FETCH:
-      return { ..._.mapKeys(action.payload, "id") };
+      return { ...state, ..._.mapKeys(action.payload, "id") };
     case CART_REMOVE:
       return _.omit(state, action.payload);
     case CART_CLEAN:

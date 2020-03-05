@@ -52,7 +52,7 @@ export class ItemList extends Component {
                 objectFit: "fill"
               }}
               src={
-                item.images === undefined
+                !item.images
                   ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
                   : item.images
               }
@@ -106,7 +106,7 @@ export class ItemList extends Component {
     });
   };
   render() {
-    console.log(this.props.sortAndFilterFormValue);
+    // console.log(this.props.sortAndFilterFormValue);
     if (
       Object.keys(this.props.items).length === 0 &&
       !this.props.sortAndFilterFormValue

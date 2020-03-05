@@ -1,14 +1,22 @@
 import React from "react";
-
-function LoginRequiteBanner(props) {
+import { Link } from "react-router-dom";
+function LoginRequiteBanner({ banner, content }) {
   return (
     <div className="ui container">
-      <div class="ui one column grid">
-        <div class="column">
-          <div class="ui raised segment">
-            <p class="ui red ribbon label">{props.banner}</p>
+      <div className="ui one column grid">
+        <div className="column">
+          <div className="ui raised segment">
+            <p className="ui red ribbon label">{banner}</p>
             <p></p>
-            {props.content}
+            <div>
+              Please{" "}
+              {
+                <Link className="ui teal button" to="/shoppingcart/login">
+                  Login
+                </Link>
+              }
+              {content}
+            </div>
           </div>
         </div>
       </div>

@@ -11,19 +11,7 @@ class ItemNew extends Component {
     console.log(formValue);
     this.props.itemCreate(formValue);
   };
-  LoginRequiteContent = () => {
-    return (
-      <div>
-        Please{" "}
-        {
-          <Link className="ui teal button" to="/shoppingcart/login">
-            Login
-          </Link>
-        }{" "}
-        To Start Shopping!
-      </div>
-    );
-  };
+
   render() {
     if (this.props.isSignedIn)
       return <ItemForm onSubmit={this.onSubmit}></ItemForm>;
@@ -31,7 +19,7 @@ class ItemNew extends Component {
       return (
         <LoginRequiteBanner
           banner="Please Login"
-          content={this.LoginRequiteContent()}
+          content="To Start Selling"
         ></LoginRequiteBanner>
       );
     }

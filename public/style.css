@@ -160,3 +160,9 @@ nav ul li a:hover {
   text-transform: uppercase;
   color: red;
 }
+
+.my-search-button {
+  color: red !important;
+
+
+}

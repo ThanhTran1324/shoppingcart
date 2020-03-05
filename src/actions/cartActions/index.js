@@ -5,14 +5,17 @@ import { firebaseConnect } from "../../apis/firebaseShoppingCart";
 
 export const cartAdd = item => async (dispatch, getState) => {
   const userId = getState().auth.userId;
-  await firebaseConnect
-    .database()
-    .ref(`/cart/Cart-${userId}/${item.id}`)
-    .set(item);
-  dispatch({
-    type: CART_ADD,
-    payload: item
-  });
+  if (userId) {
+    //for Logined User
+    await firebaseConnect
+      .database()
+      .ref(`/cart/Cart-${userId}/${item.id}`)
+      .set(item);
+    dispatch({
+      type: CART_ADD,
+      payload: item
+    });
+  }
 };
 
 export const cartFetch = () => async (dispatch, getState) => {
@@ -35,18 +38,19 @@ export const cartFetch = () => async (dispatch, getState) => {
 
 export const cartRemove = id => async (dispatch, getState) => {
   const userId = getState().auth.userId;
-  firebaseConnect
-    .database()
-    .ref(`/cart/Cart-${userId}/`)
-    .child(id) //id of child
-    .remove();
+  if (userId) {
+    firebaseConnect
+      .database()
+      .ref(`/cart/Cart-${userId}/`)
+      .child(id) //id of child
+      .remove();
 
-  dispatch({
-    type: CART_REMOVE,
-    payload: id
-  });
+    dispatch({
+      type: CART_REMOVE,
+      payload: id
+    });
+  }
 };
-
 export const cartClean = () => {
   return {
     type: CART_CLEAN

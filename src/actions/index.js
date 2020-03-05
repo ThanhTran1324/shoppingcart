@@ -13,6 +13,7 @@ import uuid from "uuid";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import history from "../history";
 import firebase from "firebase";
+import { cartAdd } from "./cartActions";
 // import { CART_CLEAN } from "./cartActions/type";
 import * as _ from "lodash";
 
@@ -20,11 +21,10 @@ import * as _ from "lodash";
 
 let items = firebaseConnect.database().ref("items");
 export const signIn = userId => async dispatch => {
-  dispatch({
+  await dispatch({
     type: SIGN_IN,
     payload: userId
   });
-  // dispatch(cartFetch());
 };
 
 export const signOut = () => dispatch => {
@@ -132,7 +132,7 @@ export const itemEdit = (id, formValues) => async dispatch => {
 
 export const itemSorted = (name, value) => (dispatch, getState) => {
   //sortedItems is an array sent to reducer, reducer will convert to Object
-  console.log(name, value);
+  // console.log(name, value);
   let sortedItems = [];
   let originalItems = getState().items;
   switch (name) {
