@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import LoginRequiteBanner from "./LoginRequiteBanner";
 import { itemCreate } from "../actions";
@@ -13,8 +13,16 @@ class ItemNew extends Component {
   };
 
   render() {
-    if (this.props.isSignedIn)
+    if (this.props.isSignedIn && !this.props.isAnonymous)
       return <ItemForm onSubmit={this.onSubmit}></ItemForm>;
+    else if (this.props.isAnonymous)
+      return (
+        <LoginRequiteBanner
+          banner="Please Login"
+          content={`You Are Shopping As Guest User!
+        Please Login To Have Better Service.`}
+        ></LoginRequiteBanner>
+      );
     else {
       return (
         <LoginRequiteBanner
@@ -27,7 +35,8 @@ class ItemNew extends Component {
 }
 const mapStateToProps = state => {
   return {
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    isAnonymous: state.auth.isAnonymous
   };
 };
 export default connect(mapStateToProps, { itemCreate })(ItemNew);

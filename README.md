@@ -1,3 +1,5 @@
+Home page: https://thanhtran1324.github.io/shoppingcart/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

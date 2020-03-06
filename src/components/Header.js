@@ -8,7 +8,7 @@ class Header extends React.Component {
   componentDidMount = async () => {
     await firebaseConnect.auth().onAuthStateChanged(user => {
       if (user) {
-        this.props.signIn(user.uid);
+        this.props.signIn(user.uid, user.isAnonymous);
         this.props.cartFetch();
       }
     });
@@ -17,7 +17,6 @@ class Header extends React.Component {
     let number = "0";
 
     if (this.props.cart) number = Object.values(this.props.cart).length;
-
     return (
       <div>
         Cart <i className=" icon shopping cart" />
@@ -26,7 +25,7 @@ class Header extends React.Component {
     );
   };
   renderAuthButton = () => {
-    if (this.props.isSignedIn)
+    if (this.props.isSignedIn && !this.props.isAnonymous)
       return (
         <Link to="/shoppingcart" onClick={this.props.signOut} className="item ">
           Logout
@@ -61,7 +60,8 @@ class Header extends React.Component {
 const mapStateToProps = state => {
   return {
     cart: state.cart,
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    isAnonymous: state.auth.isAnonymous
   };
 };
 export default connect(mapStateToProps, { cartFetch, signIn, signOut })(Header);

@@ -13,18 +13,32 @@ import uuid from "uuid";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import history from "../history";
 import firebase from "firebase";
-import { cartAdd } from "./cartActions";
+// import { cartAdd } from "./cartActions";
 // import { CART_CLEAN } from "./cartActions/type";
 import * as _ from "lodash";
 
 // var data = firebaseConnect.database().ref("/");
 
 let items = firebaseConnect.database().ref("items");
-export const signIn = userId => async dispatch => {
+
+export const signIn = (userId, isAnonymous) => async dispatch => {
   await dispatch({
     type: SIGN_IN,
-    payload: userId
+    payload: { userId, isAnonymous }
   });
+};
+
+export const signInAsAnonymous = () => async (dispatch, getState) => {
+  if (!getState().auth.isSignedIn) {
+    //if user is not login so create new anonymous user
+    await firebaseConnect
+      .auth()
+      .signInAnonymously()
+      .catch(error => {
+        var errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  }
 };
 
 export const signOut = () => dispatch => {

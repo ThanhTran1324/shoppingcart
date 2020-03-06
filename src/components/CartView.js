@@ -61,12 +61,22 @@ export class CartView extends Component {
     });
     return totalprice;
   };
-
+  renderWarningPanelForlAnonymoust = () => {
+    if (this.props.isAnonymous)
+      return (
+        <LoginRequiteBanner
+          banner="Please Login"
+          content={`You Are Shopping As Guest User!
+          Please Login To Have Better Service.`}
+        ></LoginRequiteBanner>
+      );
+  };
   render() {
     if (this.props.isSignedIn) {
       if (this.props.cart !== null) {
         return (
           <div className="ui container" style={{ justifyContent: "center" }}>
+            {this.renderWarningPanelForlAnonymoust()}
             <div className="ui celled massive list">
               {this.renderList(Object.values(this.props.cart))}
             </div>
@@ -102,7 +112,8 @@ export class CartView extends Component {
 const mapStateToProps = state => {
   return {
     cart: state.cart,
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    isAnonymous: state.auth.isAnonymous
   };
 };
 export default connect(mapStateToProps, { cartRemove, cartFetch })(CartView);

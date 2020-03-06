@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { itemsFetch } from "../actions";
+import { itemsFetch, signInAsAnonymous } from "../actions";
 import { cartAdd } from "../actions/cartActions";
 import SortAndFilter from "./SortAndFilter";
 
@@ -35,6 +35,10 @@ export class ItemList extends Component {
         </div>
       );
   };
+  addToCartHandler = item => {
+    this.props.signInAsAnonymous();
+    this.props.cartAdd(item);
+  };
   renderList = () => {
     return Object.values(this.props.items).map(item => {
       // console.log(item.images);
@@ -64,7 +68,7 @@ export class ItemList extends Component {
             <div className=" ui buttons right floated">
               <button
                 className="ui button primary"
-                onClick={() => this.props.cartAdd(item)}
+                onClick={() => this.addToCartHandler(item)}
               >
                 <i className="shopping cart icon"></i>
                 Add
@@ -136,7 +140,12 @@ const mapStateToProps = state => {
   return {
     items: state.items,
     currentUserId: state.auth.userId,
+    isSignedIn: state.auth.isSignedIn,
     sortAndFilterFormValue: state.form.SortAndFilterForm
   };
 };
-export default connect(mapStateToProps, { itemsFetch, cartAdd })(ItemList);
+export default connect(mapStateToProps, {
+  itemsFetch,
+  cartAdd,
+  signInAsAnonymous
+})(ItemList);

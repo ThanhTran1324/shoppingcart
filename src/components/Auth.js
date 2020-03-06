@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import "./auth.css";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { signIn, signOut } from "../actions";
+import { signIn, signOut, signInAsAnonymous } from "../actions";
+import NotificateModal from "./NotificateModal";
 // import GoogleAuth from "./GoogleAuth";
 import history from "../history";
 class Auth extends Component {
@@ -33,12 +34,14 @@ class Auth extends Component {
   };
   onSubmit = formValue => {
     //--------Log In--------
-    if (!this.state.showVerifyPassword)
+    if (!this.state.showVerifyPassword) {
+      //Login
       firebase
         .auth()
         .signInWithEmailAndPassword(formValue.email, formValue.password)
         .then(result => {
           this.setState({ error: "Login Success" });
+
           history.push("/shoppingcart");
         })
         .catch(error => {
@@ -46,20 +49,43 @@ class Auth extends Component {
           var errorCode = error.code;
           this.setState({ error: errorCode });
         });
+    }
     //--------Sign Up--------
     else {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(formValue.email, formValue.password)
-        .then(result => {
-          //Created User
-          history.push(`/shoppingcart`);
-        })
-        .catch(error => {
-          //Handle Erros here
-          var errorCode = error.code;
-          this.setState({ error: errorCode });
-        });
+      if (this.props.isSignedIn && this.props.isAnonymous) {
+        //merge anonymous user and new user
+        var credential = firebase.auth.EmailAuthProvider.credential(
+          formValue.email,
+          formValue.password
+        );
+        // console.log(credential);
+        firebase
+          .auth()
+          .currentUser.linkWithCredential(credential)
+          .then(
+            function(usercred) {
+              var user = usercred.user;
+              console.log("Anonymous account successfully upgraded", user);
+            },
+            function(error) {
+              console.log("Error upgrading anonymous account", error);
+            }
+          );
+      } else {
+        //Create User
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(formValue.email, formValue.password)
+          .then(result => {
+            history.push(`/shoppingcart`);
+          })
+          .catch(error => {
+            //Handle Erros here
+            var errorCode = error.code;
+            this.setState({ error: errorCode });
+          });
+      }
+      //notificateModal
     }
   };
   renderErrorFromServer = () => {
@@ -127,6 +153,11 @@ class Auth extends Component {
   render() {
     return (
       <div className="ui  container ">
+        <NotificateModal
+          header="New user Created"
+          content="Thank you for created user"
+          time="2000"
+        ></NotificateModal>
         <div className="login-container">
           <div className="login-box">
             <div className="ui equal width center aligned padded grid">
@@ -181,6 +212,12 @@ class Auth extends Component {
           >
             <i className="google icon"></i>Google Login
           </button>
+          <button
+            onClick={this.props.signInAsAnonymous}
+            className="ui teal google button my-google-login"
+          >
+            <i className="user secret icon"></i>Login As Guest User
+          </button>
         </div>
       </div>
     );
@@ -201,10 +238,15 @@ const validate = formValue => {
 };
 const mapStateToProps = state => {
   return {
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    isAnonymous: state.auth.isAnonymous
   };
 };
-const componentWrapup = connect(mapStateToProps, { signIn, signOut })(Auth);
+const componentWrapup = connect(mapStateToProps, {
+  signIn,
+  signOut,
+  signInAsAnonymous
+})(Auth);
 
 export default reduxForm({
   form: "userForm",
