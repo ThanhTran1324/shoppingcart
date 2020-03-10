@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { signInAsAnonymous } from "../actions";
+import RenderButtonLoginAsGuestUser from "./RenderButtonLoginAsGuestUser";
 class LoginRequiteBanner extends React.Component {
   render() {
     return (
@@ -19,12 +19,7 @@ class LoginRequiteBanner extends React.Component {
                   </Link>
                 }
                 {this.props.content}
-                <button
-                  onClick={this.props.signInAsAnonymous}
-                  className="ui teal google button my-google-login"
-                >
-                  <i className="user secret icon"></i>Login As Guest User
-                </button>
+                <RenderButtonLoginAsGuestUser />
               </div>
             </div>
           </div>
@@ -34,4 +29,4 @@ class LoginRequiteBanner extends React.Component {
   }
 }
 
-export default connect(null, { signInAsAnonymous })(LoginRequiteBanner);
+export default connect(null)(LoginRequiteBanner);

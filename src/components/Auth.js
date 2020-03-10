@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import "./auth.css";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { signIn, signOut, signInAsAnonymous } from "../actions";
-import NotificateModal from "./NotificateModal";
+import { signIn, signOut } from "../actions";
+
 // import GoogleAuth from "./GoogleAuth";
 import history from "../history";
 class Auth extends Component {
@@ -153,11 +153,11 @@ class Auth extends Component {
   render() {
     return (
       <div className="ui  container ">
-        <NotificateModal
+        {/* <NotificateModal
           header="New user Created"
           content="Thank you for created user"
           time="2000"
-        ></NotificateModal>
+        ></NotificateModal> */}
         <div className="login-container">
           <div className="login-box">
             <div className="ui equal width center aligned padded grid">
@@ -212,12 +212,6 @@ class Auth extends Component {
           >
             <i className="google icon"></i>Google Login
           </button>
-          <button
-            onClick={this.props.signInAsAnonymous}
-            className="ui teal google button my-google-login"
-          >
-            <i className="user secret icon"></i>Login As Guest User
-          </button>
         </div>
       </div>
     );
@@ -244,8 +238,7 @@ const mapStateToProps = state => {
 };
 const componentWrapup = connect(mapStateToProps, {
   signIn,
-  signOut,
-  signInAsAnonymous
+  signOut
 })(Auth);
 
 export default reduxForm({
