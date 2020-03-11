@@ -164,3 +164,7 @@ nav ul li a:hover {
 .my-search-button {
   color: red !important;
 }
+
+.notification-container {
+  top: 80px;
+}
