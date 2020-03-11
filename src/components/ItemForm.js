@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
-
+import { NotificationManager } from "react-notifications";
 // import axios from "axios";
 class ItemForm extends Component {
   state = {
@@ -32,6 +32,7 @@ class ItemForm extends Component {
         <label>{label}</label>
         <div>
           <input type="file" onChange={this.fileSelectedHandler}></input>
+
           <div
             onClick={this.fileUploadHandler}
             className="ui labeled button"
@@ -50,7 +51,6 @@ class ItemForm extends Component {
   };
 
   convertImage = item => {
-    console.log("converting");
     var resize_width = 600;
     var reader = new FileReader();
 
@@ -96,6 +96,13 @@ class ItemForm extends Component {
     if (event.target.files.length > 0) {
       this.setState({ imageName: event.target.files[0].name });
       this.convertImage(event.target.files[0]);
+      NotificationManager.success(
+        ` ${parseFloat(event.target.files[0].size / 1024 / 1024).toFixed(
+          2
+        )} MB `,
+        "Converting Your Image",
+        2000
+      );
       document.getElementById("submitButton").disabled = true; //disable submit button , wait for click upload
       document.getElementById("uploadButton").classList.add("green");
     }

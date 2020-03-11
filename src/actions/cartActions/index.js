@@ -2,7 +2,7 @@ import { CART_ADD, CART_FETCH, CART_REMOVE, CART_CLEAN } from "./type";
 
 import { firebaseConnect } from "../../apis/firebaseShoppingCart";
 //import history from "../../history";
-
+import { NotificationManager } from "react-notifications";
 export const cartAdd = item => async (dispatch, getState) => {
   const userId = getState().auth.userId;
   if (userId) {
@@ -11,6 +11,11 @@ export const cartAdd = item => async (dispatch, getState) => {
       .database()
       .ref(`/cart/Cart-${userId}/${item.id}`)
       .set(item);
+    NotificationManager.success(
+      "You have added a new Item!",
+      "Successful!",
+      2000
+    );
     dispatch({
       type: CART_ADD,
       payload: item

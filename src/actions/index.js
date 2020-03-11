@@ -16,12 +16,19 @@ import firebase from "firebase";
 // import { cartAdd } from "./cartActions";
 // import { CART_CLEAN } from "./cartActions/type";
 import * as _ from "lodash";
-
+import { NotificationManager } from "react-notifications";
 // var data = firebaseConnect.database().ref("/");
 
 let items = firebaseConnect.database().ref("items");
 
 export const signIn = (userId, isAnonymous) => async dispatch => {
+  if (isAnonymous)
+    NotificationManager.success(
+      "Please Upgrade To Permanent User To Have Better Service !",
+      "WelCome Back",
+      2000
+    );
+  else NotificationManager.success("Login Success", "Success", 2000);
   await dispatch({
     type: SIGN_IN,
     payload: { userId, isAnonymous }
@@ -30,13 +37,14 @@ export const signIn = (userId, isAnonymous) => async dispatch => {
 
 export const signInAsAnonymous = () => async (dispatch, getState) => {
   if (!getState().auth.isSignedIn) {
+    var errorMessage = null;
     //if user is not login so create new anonymous user
     await firebaseConnect
       .auth()
       .signInAnonymously()
       .catch(error => {
-        var errorMessage = error.message;
-        console.log(errorMessage);
+        errorMessage = error.message;
+        NotificationManager.error(errorMessage, "Error", 2000);
       });
   }
 };
@@ -46,11 +54,13 @@ export const signOut = () => dispatch => {
     .auth()
     .signOut()
     .then(() => {
-      console.log("Signed Out");
+      NotificationManager.success("", "Logout Successful", 2000);
     })
     .catch(error => {
       console.log(error);
+      NotificationManager.error(error, "Error", 2000);
     });
+
   dispatch({ type: SIGN_OUT });
   dispatch(cartClean());
   history.push("/shoppingcart");
@@ -75,7 +85,7 @@ export const itemCreate = formValues => async (dispatch, getState) => {
     .then(snapshot => {
       return snapshot.val();
     });
-
+  if (response) NotificationManager.success("", "New Item Created", 2000);
   dispatch({
     type: ITEM_CREATE,
     payload: response
@@ -123,8 +133,9 @@ export const itemDelete = id => async dispatch => {
       });
     })
     .catch(error => {
-      console.log(error); // need fix delete error
+      NotificationManager.error(error, "Error", 2000); // need fix delete error
     });
+  NotificationManager.success("", "Deleted", 2000);
   history.push("/shoppingcart");
 };
 export const itemEdit = (id, formValues) => async dispatch => {

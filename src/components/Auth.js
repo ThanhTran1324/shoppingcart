@@ -7,9 +7,10 @@ import "./auth.css";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
-
-// import GoogleAuth from "./GoogleAuth";
+import { NotificationManager } from "react-notifications";
 import history from "../history";
+// import GoogleAuth from "./GoogleAuth";
+
 class Auth extends Component {
   constructor(props) {
     super(props);
@@ -64,11 +65,17 @@ class Auth extends Component {
           .currentUser.linkWithCredential(credential)
           .then(
             function(usercred) {
-              var user = usercred.user;
-              console.log("Anonymous account successfully upgraded", user);
+              NotificationManager.success(
+                `Anonymous account successfully upgraded `,
+                "Successful!",
+                2000
+              );
+              history.push("/shoppingcart");
+              // console.log("Anonymous account successfully upgraded");
             },
             function(error) {
-              console.log("Error upgrading anonymous account", error);
+              NotificationManager.error(error.message, "Error!", 2000);
+              // console.log("Error upgrading anonymous account", );
             }
           );
       } else {
@@ -153,11 +160,6 @@ class Auth extends Component {
   render() {
     return (
       <div className="ui  container ">
-        {/* <NotificateModal
-          header="New user Created"
-          content="Thank you for created user"
-          time="2000"
-        ></NotificateModal> */}
         <div className="login-container">
           <div className="login-box">
             <div className="ui equal width center aligned padded grid">
@@ -167,7 +169,7 @@ class Auth extends Component {
                   onClick={() => this.SignInSignUpSwitch(false)}
                   style={{ cursor: "pointer" }}
                 >
-                  Welcome Back
+                  Log in
                 </div>
                 <div
                   className="blue column"

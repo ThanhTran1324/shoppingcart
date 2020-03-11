@@ -12,10 +12,13 @@ import Auth from "./Auth";
 import CartView from "./CartView";
 import ForGotPassword from "./ForGotPassword";
 
+import "react-notifications/lib/notifications.css";
+import { NotificationContainer } from "react-notifications";
 class App extends React.Component {
   render() {
     return (
       <div className="ui fluid container">
+        <NotificationContainer />
         <Router history={history}>
           <div>
             <Header />
