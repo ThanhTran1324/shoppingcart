@@ -7,15 +7,16 @@ export const cartAdd = item => async (dispatch, getState) => {
   const userId = getState().auth.userId;
   if (userId) {
     //for Logined User
-    await firebaseConnect
-      .database()
-      .ref(`/cart/Cart-${userId}/${item.id}`)
-      .set(item);
     NotificationManager.success(
       "You have added a new Item!",
       "Successful!",
       2000
     );
+    await firebaseConnect
+      .database()
+      .ref(`/cart/Cart-${userId}/${item.id}`)
+      .set(item);
+
     dispatch({
       type: CART_ADD,
       payload: item

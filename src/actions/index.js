@@ -210,6 +210,18 @@ export const itemSorted = (name, value) => (dispatch, getState) => {
           .reverse();
       }
       break;
+    // case "searchByName":
+    //   sortedItems = Object.values(originalItems).filter(e =>
+    //     e.name.match(value)
+    //   );
+    //   console.log(sortedItems.length === 0);
+    //   if (sortedItems.length === 0) {
+    //     console.log("no item");
+    //     NotificationManager.warning("", "No Item Was found!", 3000);
+    //     dispatch(itemsFetch());
+    //   }
+
+    //   break;
     default:
       console.log("no sort");
   }

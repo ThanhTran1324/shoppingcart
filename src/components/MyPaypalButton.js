@@ -3,8 +3,7 @@ import { PayPalButton } from "react-paypal-button";
 import React from "react";
 export default function MyPaypalButton(props) {
   const paypalOptions = {
-    clientId:
-      "AYI5Th6t7An5aFVx5rkUvvbo68XhT-ol3iXLVdyBbkiTzYUo9RaNZJoCcpVUKv3fGNQnGXzpF3J_Bd4a",
+    clientId: process.env.REACT_APP_API_PAYPALKEY,
     intent: "capture"
   };
 

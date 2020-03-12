@@ -39,9 +39,8 @@ export class ItemList extends Component {
     this.props.signInAsAnonymous();
     this.props.cartAdd(item);
   };
-  renderList = () => {
-    return Object.values(this.props.items).map(item => {
-      // console.log(item.images);
+  renderList = items => {
+    return items.map(item => {
       return (
         <div className="card  " key={item.id}>
           <div
@@ -131,7 +130,9 @@ export class ItemList extends Component {
       return (
         <div className="ui fluid container  " style={{ marginTop: "5px" }}>
           <SortAndFilter></SortAndFilter>
-          <div className="ui special cards centered">{this.renderList()}</div>
+          <div className="ui special cards centered">
+            {this.renderList(Object.values(this.props.items))}
+          </div>
         </div>
       );
   }
@@ -139,9 +140,9 @@ export class ItemList extends Component {
 const mapStateToProps = state => {
   return {
     items: state.items,
+    searchform: state.form.SortAndFilterForm,
     currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn,
-    sortAndFilterFormValue: state.form.SortAndFilterForm
+    isSignedIn: state.auth.isSignedIn
   };
 };
 export default connect(mapStateToProps, {

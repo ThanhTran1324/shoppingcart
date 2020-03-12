@@ -6,7 +6,7 @@ import { Field, reduxForm } from "redux-form";
 export class SortAndFilter extends Component {
   renderSelecter = ({ name, input, label, option }) => {
     return (
-      <div className="ui form">
+      <div className="ui form column">
         {/* Sort Dropdown */}
 
         <select {...input} onChange={this.handleChange} className="ui dropdown">
@@ -34,14 +34,15 @@ export class SortAndFilter extends Component {
   };
 
   handleOnSearch = formValues => {
-    console.log(formValues);
+    // console.log(formValues);
+    // this.props.itemSorted("searchByName", formValues.search);
   };
   renderSearch = ({ input, name }) => {
     return (
       <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
         <div className="ui input " style={{ width: "100%" }}>
           <input {...input} type="text" placeholder="Search..."></input>{" "}
-          <button className="ui button my-search-button">
+          <button type="submit" className="ui button my-search-button">
             <i className="search icon"></i>
           </button>
         </div>
@@ -54,27 +55,24 @@ export class SortAndFilter extends Component {
       <div className="ui container">
         <div className="ui grid">
           {/* here */}
-          <div className="four wide column">
+          {/* <div className="three wide column">
             <Field name="search" component={this.renderSearch}></Field>
-          </div>
-
-          <div className="four wide column">
+          </div> */}
+          <div className="three column row">
             <Field
               name="price"
               label="Price"
               component={this.renderSelecter}
               option={["Low To High", "High To Low"]}
             ></Field>
-          </div>
-          <div className="four wide column">
+
             <Field
               name="time"
               label="Time"
               component={this.renderSelecter}
               option={["Old To New", "New To Old"]}
             ></Field>
-          </div>
-          <div className="four wide column">
+
             <Field
               name="name"
               label="Name"

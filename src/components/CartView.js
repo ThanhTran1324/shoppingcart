@@ -20,7 +20,11 @@ export class CartView extends Component {
           <div style={{ color: "#FF9200", float: "right" }}>/${item.price}</div>
           <img
             className="ui avatar image"
-            src={item.images}
+            src={
+              !item.images
+                ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
+                : item.images
+            }
             alt={item.name}
           ></img>
 
