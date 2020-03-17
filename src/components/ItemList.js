@@ -39,6 +39,10 @@ export class ItemList extends Component {
     this.props.signInAsAnonymous();
     this.props.cartAdd(item);
   };
+  shortString = (str, num) => {
+    if (str.length <= num) return str;
+    return str.slice(0, num) + "...";
+  };
   renderList = items => {
     return items.map(item => {
       return (
@@ -77,7 +81,7 @@ export class ItemList extends Component {
               className="header"
               style={{ overflow: "hidden", textTransform: "capitalize" }}
             >
-              {item.name}
+              {this.shortString(item.name, 28)}
             </div>
             <div className="meta">
               <span

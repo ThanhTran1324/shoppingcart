@@ -39,7 +39,6 @@ class ItemDelete extends Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.match.params.id);
   return {
     item: state.items[ownProps.match.params.id]
   };

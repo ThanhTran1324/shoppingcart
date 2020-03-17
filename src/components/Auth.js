@@ -42,7 +42,6 @@ class Auth extends Component {
         .signInWithEmailAndPassword(formValue.email, formValue.password)
         .then(result => {
           this.setState({ error: "Login Success" });
-
           history.push("/shoppingcart");
         })
         .catch(error => {

@@ -108,9 +108,13 @@ class ItemForm extends Component {
     }
   };
   fileUploadHandler = event => {
+    var randomImagePrefix = Math.floor(Math.random() * Math.floor(1000)); //to fix same image name
+    console.log(randomImagePrefix);
     event.preventDefault();
     var filename = this.state.imageName; //get file name
-    var storageRef = firebaseConnect.storage().ref(`/images/` + filename); //upload to image folder
+    var storageRef = firebaseConnect
+      .storage()
+      .ref(`/images/` + randomImagePrefix + filename); //upload to image folder
     var uploadTask = storageRef.put(this.state.selectedFile);
     uploadTask.on(
       "state_changed",

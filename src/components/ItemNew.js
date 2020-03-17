@@ -8,7 +8,6 @@ import ItemForm from "./ItemForm";
 
 class ItemNew extends Component {
   onSubmit = formValue => {
-    console.log(formValue);
     this.props.itemCreate(formValue);
   };
 

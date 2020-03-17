@@ -121,8 +121,20 @@ export const itemFetch = id => async dispatch => {
     payload: response[id]
   });
 };
-
-export const itemDelete = id => async dispatch => {
+export const itemImageDelete = imageUrl => {
+  firebaseConnect
+    .storage()
+    .refFromURL(imageUrl)
+    .delete()
+    .then(function() {
+      console.log("image deleted");
+    })
+    .catch(function() {
+      console.log("unable to delete image");
+    });
+};
+export const itemDelete = id => async (dispatch, getState) => {
+  itemImageDelete(getState().items[id].images);
   const deleteItem = await firebaseConnect.database().ref(`items/${id}`);
   deleteItem
     .remove()
