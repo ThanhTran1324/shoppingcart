@@ -51,6 +51,13 @@ export class ItemList extends Component {
             className="blurring dimmable image "
             style={{ overflow: "hidden" }}
           >
+            <button
+              className="ui button primary myAddButton"
+              onClick={() => this.addToCartHandler(item)}
+            >
+              <i className="shopping cart icon"></i>
+              Add
+            </button>
             <img
               className="imageCartList  "
               style={{
@@ -68,20 +75,14 @@ export class ItemList extends Component {
           </div>
 
           <div className="content">
-            <div className=" ui buttons right floated">
-              <button
-                className="ui button primary"
-                onClick={() => this.addToCartHandler(item)}
-              >
-                <i className="shopping cart icon"></i>
-                Add
-              </button>
-            </div>
+            {/* <div className=" ui buttons right floated"> */}
+
+            {/* </div> */}
             <div
               className="header"
               style={{ overflow: "hidden", textTransform: "capitalize" }}
             >
-              {this.shortString(item.name, 28)}
+              {this.shortString(item.name, 50)}
             </div>
             <div className="meta">
               <span

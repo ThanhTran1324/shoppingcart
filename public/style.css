@@ -168,3 +168,15 @@ nav ul li a:hover {
 .notification-container {
   top: 80px;
 }
+
+.myAddButton {
+  position: absolute !important;
+  z-index: 10 !important;
+  right: -3px !important;
+  bottom: 0 !important;
+  background-color: rgba(32, 132, 208, 0.7) !important;
+}
+
+.myAddButton:hover {
+  background-color: rgba(32, 132, 208, 1) !important;
+}
