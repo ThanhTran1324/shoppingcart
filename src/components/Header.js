@@ -6,6 +6,7 @@ import { cartFetch } from "../actions/cartActions";
 import { signIn, signOut } from "../actions/";
 class Header extends React.Component {
   componentDidMount = async () => {
+    firebaseConnect.analytics();
     await firebaseConnect.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.signIn(user.uid, user.isAnonymous);
