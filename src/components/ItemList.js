@@ -49,15 +49,8 @@ export class ItemList extends Component {
         <div className="card  " key={item.id}>
           <div
             className="blurring dimmable image "
-            style={{ overflow: "hidden" }}
+            style={{ position: "relative" }}
           >
-            <button
-              className="ui button primary myAddButton"
-              onClick={() => this.addToCartHandler(item)}
-            >
-              <i className="shopping cart icon"></i>
-              Add
-            </button>
             <img
               className="imageCartList  "
               style={{
@@ -72,6 +65,14 @@ export class ItemList extends Component {
               }
               alt="hinh"
             ></img>
+            <button
+              style={{ position: "absolute", right: "-3px", bottom: "0px" }}
+              className="ui button primary myAddButton"
+              onClick={() => this.addToCartHandler(item)}
+            >
+              <i className="shopping cart icon"></i>
+              Add
+            </button>
           </div>
 
           <div className="content">
@@ -80,7 +81,11 @@ export class ItemList extends Component {
             {/* </div> */}
             <div
               className="header"
-              style={{ overflow: "hidden", textTransform: "capitalize" }}
+              style={{
+                overflow: "hidden",
+                textTransform: "capitalize",
+                height: "44px"
+              }}
             >
               {this.shortString(item.name, 50)}
             </div>
