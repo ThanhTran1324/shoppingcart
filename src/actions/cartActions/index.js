@@ -3,7 +3,7 @@ import { CART_ADD, CART_FETCH, CART_REMOVE, CART_CLEAN } from "./type";
 import { firebaseConnect } from "../../apis/firebaseShoppingCart";
 //import history from "../../history";
 import { NotificationManager } from "react-notifications";
-export const cartAdd = item => async (dispatch, getState) => {
+export const cartAdd = (item) => async (dispatch, getState) => {
   const userId = getState().auth.userId;
   if (userId) {
     //for Logined User
@@ -19,7 +19,7 @@ export const cartAdd = item => async (dispatch, getState) => {
 
     dispatch({
       type: CART_ADD,
-      payload: item
+      payload: item,
     });
   }
 };
@@ -32,17 +32,17 @@ export const cartFetch = () => async (dispatch, getState) => {
       .database()
       .ref(`/cart/Cart-${userId}`)
       .once("value")
-      .then(function(dataSnapshot) {
+      .then(function (dataSnapshot) {
         return dataSnapshot.val();
       });
     dispatch({
       type: CART_FETCH,
-      payload: response
+      payload: response,
     });
   }
 };
 
-export const cartRemove = id => async (dispatch, getState) => {
+export const cartRemove = (id) => async (dispatch, getState) => {
   const userId = getState().auth.userId;
   if (userId) {
     firebaseConnect
@@ -53,12 +53,12 @@ export const cartRemove = id => async (dispatch, getState) => {
 
     dispatch({
       type: CART_REMOVE,
-      payload: id
+      payload: id,
     });
   }
 };
 export const cartClean = () => {
   return {
-    type: CART_CLEAN
+    type: CART_CLEAN,
   };
 };

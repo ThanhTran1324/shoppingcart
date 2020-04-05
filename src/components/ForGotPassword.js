@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import firebase from "firebase";
+import { firebaseConnect } from "../apis/firebaseShoppingCart";
 
 import LoginRequiteBanner from "./LoginRequiteBanner";
 export class ForGotPassword extends Component {
@@ -35,9 +35,9 @@ export class ForGotPassword extends Component {
       </div>
     );
   };
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
-    var auth = firebase.auth();
+    var auth = firebaseConnect.auth();
     var email = document.getElementById("email").value;
     auth
       .sendPasswordResetEmail(email)
@@ -46,7 +46,7 @@ export class ForGotPassword extends Component {
         console.log("email sent");
         document.getElementById("output").innerHTML = "Email has been sent!";
       })
-      .catch(error => {
+      .catch((error) => {
         //an error happened
         // console.log(error);
         document.getElementById("output").innerHTML = error;

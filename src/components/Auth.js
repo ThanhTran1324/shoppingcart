@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import firebase from "firebase";
+import { firebaseConnect } from "../apis/firebaseShoppingCart";
+import firebase from "firebase/app";
+import "firebase/auth";
 // import firebaseui from "firebaseui";
 import { Link } from "react-router-dom";
 
@@ -16,7 +18,7 @@ class Auth extends Component {
     super(props);
     this.state = {
       error: "",
-      showVerifyPassword: false
+      showVerifyPassword: false,
     };
   }
 
@@ -33,18 +35,18 @@ class Auth extends Component {
       </div>
     );
   };
-  onSubmit = formValue => {
+  onSubmit = (formValue) => {
     //--------Log In--------
     if (!this.state.showVerifyPassword) {
       //Login
-      firebase
+      firebaseConnect
         .auth()
         .signInWithEmailAndPassword(formValue.email, formValue.password)
-        .then(result => {
+        .then((result) => {
           this.setState({ error: "Login Success" });
           history.push("/shoppingcart");
         })
-        .catch(error => {
+        .catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
           this.setState({ error: errorCode });
@@ -54,16 +56,16 @@ class Auth extends Component {
     else {
       if (this.props.isSignedIn && this.props.isAnonymous) {
         //merge anonymous user and new user
-        var credential = firebase.auth.EmailAuthProvider.credential(
+        var credential = firebaseConnect.auth.EmailAuthProvider.credential(
           formValue.email,
           formValue.password
         );
         // console.log(credential);
-        firebase
+        firebaseConnect
           .auth()
           .currentUser.linkWithCredential(credential)
           .then(
-            function(usercred) {
+            function (usercred) {
               NotificationManager.success(
                 `Anonymous account successfully upgraded `,
                 "Successful!",
@@ -72,20 +74,20 @@ class Auth extends Component {
               history.push("/shoppingcart");
               // console.log("Anonymous account successfully upgraded");
             },
-            function(error) {
+            function (error) {
               NotificationManager.error(error.message, "Error!", 2000);
               // console.log("Error upgrading anonymous account", );
             }
           );
       } else {
         //Create User
-        firebase
+        firebaseConnect
           .auth()
           .createUserWithEmailAndPassword(formValue.email, formValue.password)
-          .then(result => {
+          .then((result) => {
             history.push(`/shoppingcart`);
           })
-          .catch(error => {
+          .catch((error) => {
             //Handle Erros here
             var errorCode = error.code;
             this.setState({ error: errorCode });
@@ -106,10 +108,10 @@ class Auth extends Component {
   };
   googleLogin = () => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase
+    firebaseConnect
       .auth()
       .signInWithPopup(provider)
-      .then(function(result) {
+      .then(function (result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         // var token = result.credential.accessToken;
         // // The signed-in user info.
@@ -117,7 +119,7 @@ class Auth extends Component {
         // ...
         if (result.user) history.push("/shoppingcart");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // Handle Errors here.
         // var errorCode = error.code;
         // var errorMessage = error.message;
@@ -153,10 +155,11 @@ class Auth extends Component {
       );
     }
   };
-  SignInSignUpSwitch = value => {
+  SignInSignUpSwitch = (value) => {
     this.setState({ showVerifyPassword: value });
   };
   render() {
+    console.log(firebaseConnect);
     return (
       <div className="ui  container ">
         <div className="login-container">
@@ -218,7 +221,7 @@ class Auth extends Component {
     );
   }
 }
-const validate = formValue => {
+const validate = (formValue) => {
   const error = {};
   const mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   if (!formValue.email) error.email = " Requite Value !";
@@ -231,18 +234,18 @@ const validate = formValue => {
 
   return error;
 };
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isSignedIn: state.auth.isSignedIn,
-    isAnonymous: state.auth.isAnonymous
+    isAnonymous: state.auth.isAnonymous,
   };
 };
 const componentWrapup = connect(mapStateToProps, {
   signIn,
-  signOut
+  signOut,
 })(Auth);
 
 export default reduxForm({
   form: "userForm",
-  validate
+  validate,
 })(componentWrapup);

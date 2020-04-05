@@ -1,4 +1,8 @@
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/storage";
+import "firebase/database";
+import "firebase/analytics";
 
 var config = {
   apiKey: process.env.REACT_APP_API_1,
@@ -8,7 +12,7 @@ var config = {
   storageBucket: process.env.REACT_APP_API_5,
   messagingSenderId: process.env.REACT_APP_API_6,
   appId: process.env.REACT_APP_API_7,
-  measurementId: process.env.REACT_APP_API_8
+  measurementId: process.env.REACT_APP_API_8,
 };
 // Initialize Firebase
 
