@@ -6,10 +6,10 @@ import {
   ITEM_DELETE,
   ITEM_FETCH,
   ITEM_EDIT,
-  ITEM_SORTED
+  ITEM_SORTED,
 } from "./types";
 import { cartClean } from "./cartActions/";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import history from "../history";
 import firebase from "firebase";
@@ -21,7 +21,7 @@ import { NotificationManager } from "react-notifications";
 
 let items = firebaseConnect.database().ref("items");
 
-export const signIn = (userId, isAnonymous) => async dispatch => {
+export const signIn = (userId, isAnonymous) => async (dispatch) => {
   if (isAnonymous)
     NotificationManager.success(
       "Please Upgrade To Permanent User To Have Better Service !",
@@ -31,7 +31,7 @@ export const signIn = (userId, isAnonymous) => async dispatch => {
   else NotificationManager.success("Login Success", "Success", 2000);
   await dispatch({
     type: SIGN_IN,
-    payload: { userId, isAnonymous }
+    payload: { userId, isAnonymous },
   });
 };
 
@@ -42,21 +42,21 @@ export const signInAsAnonymous = () => async (dispatch, getState) => {
     await firebaseConnect
       .auth()
       .signInAnonymously()
-      .catch(error => {
+      .catch((error) => {
         errorMessage = error.message;
         NotificationManager.error(errorMessage, "Error", 2000);
       });
   }
 };
 
-export const signOut = () => dispatch => {
+export const signOut = () => (dispatch) => {
   firebase
     .auth()
     .signOut()
     .then(() => {
       NotificationManager.success("", "Logout Successful", 2000);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       NotificationManager.error(error, "Error", 2000);
     });
@@ -66,46 +66,43 @@ export const signOut = () => dispatch => {
   history.push("/shoppingcart");
 };
 
-export const itemCreate = formValues => async (dispatch, getState) => {
+export const itemCreate = (formValues) => async (dispatch, getState) => {
   const userId = getState().auth.userId;
   const newItem = {
     ...formValues,
     userId: userId,
-    id: uuid()
+    id: uuidv4(),
   };
-  firebaseConnect
-    .database()
-    .ref(`items/${newItem.id}`)
-    .set(newItem);
+  firebaseConnect.database().ref(`items/${newItem.id}`).set(newItem);
 
   const response = await firebaseConnect
     .database()
     .ref(`items/${newItem.id}`)
     .once("value")
-    .then(snapshot => {
+    .then((snapshot) => {
       return snapshot.val();
     });
   if (response) NotificationManager.success("", "New Item Created", 2000);
   dispatch({
     type: ITEM_CREATE,
-    payload: response
+    payload: response,
   });
   history.push("/shoppingcart");
 };
 
-export const itemsFetch = () => async dispatch => {
-  let response = await items.once("value").then(function(snapshot) {
+export const itemsFetch = () => async (dispatch) => {
+  let response = await items.once("value").then(function (snapshot) {
     return snapshot.val();
   });
   dispatch({
     type: ITEMS_FETCH,
-    payload: response
+    payload: response,
   });
   dispatch(itemSorted("time", "1")); //sort item as new first after fetch
 };
 //items.set(_.keyBy(response, "id")); convert array to Object to fix database
 
-export const itemFetch = id => async dispatch => {
+export const itemFetch = (id) => async (dispatch) => {
   // let response = await items.once("value").then(snapshot => {
   //   return snapshot.val()[id]; //access to Object and get value with key = id
   // });
@@ -113,56 +110,56 @@ export const itemFetch = id => async dispatch => {
     .orderByChild("id")
     .equalTo(id)
     .once("value")
-    .then(function(snapshot) {
+    .then(function (snapshot) {
       return snapshot.val();
     });
   dispatch({
     type: ITEM_FETCH,
-    payload: response[id]
+    payload: response[id],
   });
 };
-export const itemImageDelete = imageUrl => {
+export const itemImageDelete = (imageUrl) => {
   firebaseConnect
     .storage()
     .refFromURL(imageUrl)
     .delete()
-    .then(function() {
+    .then(function () {
       console.log("image deleted");
     })
-    .catch(function() {
+    .catch(function () {
       console.log("unable to delete image");
     });
 };
-export const itemDelete = id => async (dispatch, getState) => {
-  itemImageDelete(getState().items[id].images);
+export const itemDelete = (id) => async (dispatch, getState) => {
+  if (getState().items[id].images) itemImageDelete(getState().items[id].images);
   const deleteItem = await firebaseConnect.database().ref(`items/${id}`);
   deleteItem
     .remove()
     .then(() => {
       dispatch({
         type: ITEM_DELETE,
-        payload: id
+        payload: id,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       NotificationManager.error(error, "Error", 2000); // need fix delete error
     });
   NotificationManager.success("", "Deleted", 2000);
   history.push("/shoppingcart");
 };
-export const itemEdit = (id, formValues) => async dispatch => {
+export const itemEdit = (id, formValues) => async (dispatch) => {
   let editItem = firebaseConnect.database().ref(`items/${id}`);
   editItem.update(formValues);
   const response = await firebaseConnect
     .database()
     .ref(`items/${id}`)
     .once("value")
-    .then(snapshot => {
+    .then((snapshot) => {
       return snapshot.val();
     });
   dispatch({
     type: ITEM_EDIT,
-    payload: response
+    payload: response,
   });
   history.push("/shoppingcart");
 };
@@ -178,16 +175,16 @@ export const itemSorted = (name, value) => (dispatch, getState) => {
       if (value === "0") {
         //sort from a to z
         sortedItems = _.sortBy(Object.values(originalItems), [
-          function(o) {
+          function (o) {
             return o.name;
-          }
+          },
         ]);
       } else {
         //sort from z to a
         sortedItems = _.sortBy(Object.values(originalItems), [
-          function(o) {
+          function (o) {
             return o.name;
-          }
+          },
         ]).reverse();
       }
       break;
@@ -239,6 +236,6 @@ export const itemSorted = (name, value) => (dispatch, getState) => {
   }
   dispatch({
     type: ITEM_SORTED,
-    payload: sortedItems
+    payload: sortedItems,
   });
 };
