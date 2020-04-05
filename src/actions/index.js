@@ -58,7 +58,7 @@ export const signOut = () => (dispatch) => {
     })
     .catch((error) => {
       console.log(error);
-      NotificationManager.error(error, "Error", 2000);
+      NotificationManager.error(error.errorMessage, "Error", 2000);
     });
 
   dispatch({ type: SIGN_OUT });
@@ -131,20 +131,23 @@ export const itemImageDelete = (imageUrl) => {
     });
 };
 export const itemDelete = (id) => async (dispatch, getState) => {
-  if (getState().items[id].images) itemImageDelete(getState().items[id].images);
   const deleteItem = await firebaseConnect.database().ref(`items/${id}`);
   deleteItem
     .remove()
     .then(() => {
+      if (getState().items[id].images)
+        itemImageDelete(getState().items[id].images);
+      NotificationManager.success("", "Deleted", 2000);
       dispatch({
         type: ITEM_DELETE,
         payload: id,
       });
     })
     .catch((error) => {
-      NotificationManager.error(error, "Error", 2000); // need fix delete error
+      console.log(error);
+      NotificationManager.error(error.errorMessage, "Error", 2000); // need fix delete error
     });
-  NotificationManager.success("", "Deleted", 2000);
+
   history.push("/shoppingcart");
 };
 export const itemEdit = (id, formValues) => async (dispatch) => {
