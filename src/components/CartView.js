@@ -4,44 +4,64 @@ import { connect } from "react-redux";
 import { cartRemove, cartFetch } from "../actions/cartActions";
 import MyPaypalButton from "./MyPaypalButton";
 import LoginRequiteBanner from "./LoginRequiteBanner";
+
 export class CartView extends Component {
   state = {
-    total: 0
+    total: 0,
   };
 
   componentDidMount() {
     this.props.cartFetch();
   }
-  renderList = items => {
-    return items.map(item => {
+  renderList = (items) => {
+    return items.map((item) => {
       return (
         <div key={item.id} className="item">
           {/* {item.name}/${item.price} */}
-          <div style={{ color: "#FF9200", float: "right" }}>/${item.price}</div>
-          <img
-            className="ui avatar image"
-            src={
-              !item.images
-                ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
-                : item.images
-            }
-            alt={item.name}
-          ></img>
-
-          <div className="content">
-            <div
-              className="header"
-              style={{ color: "#0167C0", textTransform: "capitalize" }}
-            >
-              {item.name}
+          <span style={{ width: "100%", display: "inline-block" }}>
+            <div style={{ color: "#FF9200", float: "right" }}>
+              /${item.price}
             </div>
-            <button
-              onClick={() => this.props.cartRemove(item.id)}
-              className="ui  mini  button "
-            >
-              Remove
-            </button>
-          </div>
+            <img
+              className="ui avatar image"
+              src={
+                !item.images
+                  ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
+                  : item.images
+              }
+              alt={item.name}
+            ></img>
+            <div className="content">
+              <button
+                onClick={() => this.props.cartRemove(item.id)}
+                className="ui  mini  button "
+                style={{ float: "right" }}
+              >
+                Remove
+              </button>
+              <div
+                className="header"
+                style={{
+                  color: "#0167C0",
+                  textTransform: "capitalize",
+                }}
+              >
+                <p
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "inline_block",
+                    maxWidth: "80%",
+                  }}
+                >
+                  {item.name}
+                </p>
+
+                {/* {shortString(item.name, 20)} */}
+              </div>
+            </div>
+          </span>
         </div>
       );
     });
@@ -49,7 +69,7 @@ export class CartView extends Component {
   renderTotal = () => {
     var totalprice = 0;
     if (this.props.cart !== null) {
-      Object.values(this.props.cart).map(item => {
+      Object.values(this.props.cart).map((item) => {
         return (totalprice += parseInt(item.price));
       });
     }
@@ -60,7 +80,7 @@ export class CartView extends Component {
   };
   countTotal = () => {
     let totalprice = 0;
-    Object.values(this.props.cart).map(item => {
+    Object.values(this.props.cart).map((item) => {
       return (totalprice += parseInt(item.price));
     });
     return totalprice;
@@ -113,11 +133,11 @@ export class CartView extends Component {
     }
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     cart: state.cart,
     isSignedIn: state.auth.isSignedIn,
-    isAnonymous: state.auth.isAnonymous
+    isAnonymous: state.auth.isAnonymous,
   };
 };
 export default connect(mapStateToProps, { cartRemove, cartFetch })(CartView);

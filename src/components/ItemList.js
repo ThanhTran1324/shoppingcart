@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import { itemsFetch, signInAsAnonymous } from "../actions";
 import { cartAdd } from "../actions/cartActions";
 import SortAndFilter from "./SortAndFilter";
-
+import { shortString } from "./Utility";
 export class ItemList extends Component {
   componentDidMount() {
     this.props.itemsFetch();
   }
-  renderAdmin = item => {
+  renderAdmin = (item) => {
     if (item.userId === this.props.currentUserId)
       return (
         <div>
@@ -35,16 +35,16 @@ export class ItemList extends Component {
         </div>
       );
   };
-  addToCartHandler = item => {
+  addToCartHandler = (item) => {
     this.props.signInAsAnonymous();
     this.props.cartAdd(item);
   };
-  shortString = (str, num) => {
-    if (str.length <= num) return str;
-    return str.slice(0, num) + "...";
-  };
-  renderList = items => {
-    return items.map(item => {
+  // shortString = (str, num) => {
+  //   if (str.length <= num) return str;
+  //   return str.slice(0, num) + "...";
+  // };
+  renderList = (items) => {
+    return items.map((item) => {
       return (
         <div className="card  " key={item.id}>
           <div
@@ -56,7 +56,7 @@ export class ItemList extends Component {
               style={{
                 width: "100%",
                 height: "290px",
-                objectFit: "fill"
+                objectFit: "fill",
               }}
               src={
                 !item.images
@@ -84,10 +84,10 @@ export class ItemList extends Component {
               style={{
                 overflow: "hidden",
                 textTransform: "capitalize",
-                height: "44px"
+                height: "44px",
               }}
             >
-              {this.shortString(item.name, 50)}
+              {shortString(item.name, 50)}
             </div>
             <div className="meta">
               <span
@@ -147,16 +147,16 @@ export class ItemList extends Component {
       );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     items: state.items,
     searchform: state.form.SortAndFilterForm,
     currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
   };
 };
 export default connect(mapStateToProps, {
   itemsFetch,
   cartAdd,
-  signInAsAnonymous
+  signInAsAnonymous,
 })(ItemList);
