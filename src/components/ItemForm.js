@@ -8,9 +8,12 @@ class ItemForm extends Component {
     selectedFile: null,
     imageLink: null,
     uploadPercent: 0,
-    imageName: null
+    imageName: null,
   };
-
+  componentDidMount = () => {
+    if (this.props.initialValues)
+      this.setState({ imageLink: this.props.initialValues.images });
+  };
   renderInput = ({ input, meta, label, type }) => {
     const confirmError = meta.error && meta.touched;
     const errorClassName = `field ${confirmError ? `error` : ``}`;
@@ -18,18 +21,33 @@ class ItemForm extends Component {
     return (
       <div className={errorClassName}>
         <label>
-          {label}
-          {`${confirmError ? "Requited" : ""}`}
+          {label} :{`${confirmError ? "Requited" : ""}`}
         </label>
-        <input {...input} type={type} />
+        <input {...input} type={type} placeholder={label} />
       </div>
     );
   };
 
+  renderPreImage = () => {
+    if (this.props.initialValues) {
+      return (
+        <div>
+          <img
+            className="ui medium centered rounded image "
+            src={this.props.initialValues.images}
+            alt="Item"
+          ></img>
+          <p> Click Choose File to update new image :</p>
+        </div>
+      );
+    }
+  };
   renderImageInput = ({ input, meta, label, uploadPercent }) => {
     return (
       <div className="field">
-        <label>{label}</label>
+        <label>{label} :</label>
+        {this.renderPreImage()}
+
         <div>
           <input type="file" onChange={this.fileSelectedHandler}></input>
 
@@ -50,7 +68,7 @@ class ItemForm extends Component {
     );
   };
 
-  convertImage = item => {
+  convertImage = (item) => {
     var resize_width = 600;
     var reader = new FileReader();
 
@@ -58,12 +76,12 @@ class ItemForm extends Component {
     reader.readAsDataURL(item);
     reader.name = item.name; //get the image's name
     reader.size = item.size; //get the image's size
-    reader.onload = event => {
+    reader.onload = (event) => {
       var img = new Image(); //create a image
       img.src = event.target.result; //result is base64-encoded Data URI
       img.name = event.target.name; //set name (optional)
       img.size = event.target.size; //set size (optional)
-      img.onload = async el => {
+      img.onload = async (el) => {
         var elem = document.createElement("canvas"); //create a canvas
 
         //scale the image to 600 (width) and keep aspect ratio
@@ -85,14 +103,14 @@ class ItemForm extends Component {
         }
         this.setState({
           selectedFile: new Blob([new Uint8Array(array)], {
-            type: "image/jpeg"
-          })
+            type: "image/jpeg",
+          }),
         });
       };
     };
   };
 
-  fileSelectedHandler = event => {
+  fileSelectedHandler = (event) => {
     if (event.target.files.length > 0) {
       this.setState({ imageName: event.target.files[0].name });
       this.convertImage(event.target.files[0]);
@@ -107,9 +125,9 @@ class ItemForm extends Component {
       document.getElementById("uploadButton").classList.add("green");
     }
   };
-  fileUploadHandler = event => {
+  fileUploadHandler = (event) => {
     var randomImagePrefix = Math.floor(Math.random() * Math.floor(1000)); //to fix same image name
-    console.log(randomImagePrefix);
+
     event.preventDefault();
     var filename = this.state.imageName; //get file name
     var storageRef = firebaseConnect
@@ -118,17 +136,18 @@ class ItemForm extends Component {
     var uploadTask = storageRef.put(this.state.selectedFile);
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         //run during upload proccess
         this.setState({
-          uploadPercent: (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          uploadPercent:
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
         });
       },
-      error => {
+      (error) => {
         console.log(error);
       },
       () => {
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
           // arrow function to use this.setState
           this.setState({ imageLink: downloadURL });
           document.getElementById("submitButton").disabled = false;
@@ -137,7 +156,7 @@ class ItemForm extends Component {
     );
   };
 
-  onSubmit = formValue => {
+  onSubmit = (formValue) => {
     //get time created of item
     var date = new Date();
     formValue.createdTime = date.getTime();
@@ -147,16 +166,16 @@ class ItemForm extends Component {
   };
   render() {
     return (
-      <div className="ui container">
+      <div className="ui  container segment">
         <form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className="ui form error"
         >
-          <Field name="name" component={this.renderInput} label="Name : " />
+          <Field name="name" component={this.renderInput} label="Name" />
           <Field
             name="price"
             component={this.renderInput}
-            label="Price: "
+            label="Price"
             type="number"
           />
 
@@ -164,7 +183,7 @@ class ItemForm extends Component {
           <Field
             name="images"
             component={this.renderImageInput}
-            label="Images: "
+            label="Images"
             uploadPercent={this.state.uploadPercent}
           />
 
@@ -177,7 +196,7 @@ class ItemForm extends Component {
   }
 }
 
-const validate = formValue => {
+const validate = (formValue) => {
   const error = {};
   if (!formValue.name) error.name = "Requite Value!";
   if (!formValue.price) error.price = "Requite Value!";
@@ -187,5 +206,5 @@ const validate = formValue => {
 
 export default reduxForm({
   form: "ItemForm",
-  validate
+  validate,
 })(ItemForm);

@@ -6,7 +6,7 @@ import { Field, reduxForm } from "redux-form";
 export class SortAndFilter extends Component {
   renderSelecter = ({ name, input, label, option }) => {
     return (
-      <div className="ui form column">
+      <div className="ui three column form">
         {/* Sort Dropdown */}
 
         <select {...input} onChange={this.handleChange} className="ui dropdown">
@@ -27,13 +27,13 @@ export class SortAndFilter extends Component {
       </div>
     );
   };
-  handleChange = e => {
+  handleChange = (e) => {
     if (e.target) {
       this.props.itemSorted(e.target.name, e.target.value);
     }
   };
 
-  handleOnSearch = formValues => {
+  handleOnSearch = (formValues) => {
     // console.log(formValues);
     // this.props.itemSorted("searchByName", formValues.search);
   };
@@ -52,45 +52,49 @@ export class SortAndFilter extends Component {
   render() {
     // console.log(this.props);
     return (
-      <div className="ui container">
-        <div className="ui grid">
-          {/* here */}
-          {/* <div className="three wide column">
+      <div className="ui grid container " style={{ marginTop: "10px" }}>
+        {/* here */}
+        {/* <div className="three wide column">
             <Field name="search" component={this.renderSearch}></Field>
           </div> */}
-          <div className="three column row">
-            <Field
-              name="price"
-              label="Price"
-              component={this.renderSelecter}
-              option={["Low To High", "High To Low"]}
-            ></Field>
-
-            <Field
-              name="time"
-              label="Time"
-              component={this.renderSelecter}
-              option={["Old To New", "New To Old"]}
-            ></Field>
-
-            <Field
-              name="name"
-              label="Name"
-              component={this.renderSelecter}
-              option={["A-Z", "Z-A"]}
-            ></Field>
+        <div
+          className="four column row"
+          style={{ width: "100%", paddingLeft: 0, paddingRight: 0 }}
+        >
+          <div className="ui  ui three column form">
+            <input placeholder="Search"></input>
           </div>
+          <Field
+            name="price"
+            label="Price"
+            component={this.renderSelecter}
+            option={["Low To High", "High To Low"]}
+          ></Field>
+
+          <Field
+            name="time"
+            label="Time"
+            component={this.renderSelecter}
+            option={["Old To New", "New To Old"]}
+          ></Field>
+
+          <Field
+            name="name"
+            label="Name"
+            component={this.renderSelecter}
+            option={["A-Z", "Z-A"]}
+          ></Field>
         </div>
       </div>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    items: state.items
+    items: state.items,
   };
 };
 const wrapper = connect(mapStateToProps, { itemSorted })(SortAndFilter);
 export default reduxForm({
-  form: "SortAndFilterForm"
+  form: "SortAndFilterForm",
 })(wrapper);

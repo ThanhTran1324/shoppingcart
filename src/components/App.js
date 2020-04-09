@@ -17,7 +17,7 @@ import { NotificationContainer } from "react-notifications";
 class App extends React.Component {
   render() {
     return (
-      <div className="ui fluid container">
+      <div className="ui  container fluid">
         <NotificationContainer />
         <Router history={history}>
           <div>

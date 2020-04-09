@@ -7,7 +7,7 @@ import { signIn, signOut } from "../actions/";
 class Header extends React.Component {
   componentDidMount = async () => {
     firebaseConnect.analytics();
-    await firebaseConnect.auth().onAuthStateChanged(user => {
+    await firebaseConnect.auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.signIn(user.uid, user.isAnonymous);
         this.props.cartFetch();
@@ -41,7 +41,7 @@ class Header extends React.Component {
   };
   render() {
     return (
-      <div className="ui container">
+      <div className="myNavBar">
         <div className="ui teal four item inverted menu">
           <Link to="/shoppingcart/" className=" item">
             Home
@@ -58,11 +58,11 @@ class Header extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     cart: state.cart,
     isSignedIn: state.auth.isSignedIn,
-    isAnonymous: state.auth.isAnonymous
+    isAnonymous: state.auth.isAnonymous,
   };
 };
 export default connect(mapStateToProps, { cartFetch, signIn, signOut })(Header);

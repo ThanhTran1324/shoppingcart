@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import ItemForm from "./ItemForm";
 
-import { itemFetch, itemEdit } from "../actions";
+import { itemFetch, itemEdit, itemImageDelete } from "../actions";
 class ItemEdit extends Component {
   componentDidMount() {
     this.props.itemFetch(this.props.match.params.id);
@@ -32,7 +32,9 @@ class ItemEdit extends Component {
 
   id = this.props.match.params.id;
 
-  onSubmit = formValues => {
+  onSubmit = (formValues) => {
+    if (formValues.images !== this.props.item.images)
+      this.props.itemImageDelete(this.props.item.images);
     this.props.itemEdit(this.id, formValues);
   };
   render() {
@@ -40,7 +42,7 @@ class ItemEdit extends Component {
       return (
         <ItemForm
           onSubmit={this.onSubmit}
-          initialValues={_.pick(this.props.item, "name", "price")}
+          initialValues={_.pick(this.props.item, "name", "price", "images")}
         ></ItemForm>
       );
     else return "loading";
@@ -50,7 +52,11 @@ class ItemEdit extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     item: state.items[ownProps.match.params.id],
-    items: state.items
+    items: state.items,
   };
 };
-export default connect(mapStateToProps, { itemFetch, itemEdit })(ItemEdit);
+export default connect(mapStateToProps, {
+  itemFetch,
+  itemEdit,
+  itemImageDelete,
+})(ItemEdit);

@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { cartRemove, cartFetch } from "../actions/cartActions";
 import MyPaypalButton from "./MyPaypalButton";
 import LoginRequiteBanner from "./LoginRequiteBanner";
-
+import "../css/CartView.css";
+import { shortString } from "./Utility";
 export class CartView extends Component {
   state = {
     total: 0,
@@ -16,14 +17,10 @@ export class CartView extends Component {
   renderList = (items) => {
     return items.map((item) => {
       return (
-        <div key={item.id} className="item">
-          {/* {item.name}/${item.price} */}
-          <span style={{ width: "100%", display: "inline-block" }}>
-            <div style={{ color: "#FF9200", float: "right" }}>
-              /${item.price}
-            </div>
+        <div key={item.id} className="three column row itemContainerCart">
+          <div class="four wide column ">
             <img
-              className="ui avatar image"
+              className="ui tiny image centered"
               src={
                 !item.images
                   ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
@@ -31,37 +28,22 @@ export class CartView extends Component {
               }
               alt={item.name}
             ></img>
-            <div className="content">
-              <button
-                onClick={() => this.props.cartRemove(item.id)}
-                className="ui  mini  button "
-                style={{ float: "right" }}
-              >
-                Remove
-              </button>
-              <div
-                className="header"
-                style={{
-                  color: "#0167C0",
-                  textTransform: "capitalize",
-                }}
-              >
-                <p
-                  style={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "inline_block",
-                    maxWidth: "80%",
-                  }}
-                >
-                  {item.name}
-                </p>
-
-                {/* {shortString(item.name, 20)} */}
-              </div>
-            </div>
-          </span>
+          </div>
+          <div class="eight wide column ">
+            <span className="myItemNameCart ">
+              {shortString(item.name, 55)}
+            </span>
+          </div>
+          <div class="four wide column">
+            <div className="myCartViewPrice ">/${item.price}</div>
+            <button
+              onClick={() => this.props.cartRemove(item.id)}
+              className="ui  mini  button myRemoveButton  "
+            >
+              Remove
+            </button>
+          </div>
+          <hr></hr>
         </div>
       );
     });
@@ -74,9 +56,7 @@ export class CartView extends Component {
       });
     }
 
-    return (
-      <span style={{ color: "#FF9200", fontSize: "30px" }}> ${totalprice}</span>
-    );
+    return <span className="myTotalAmount"> ${totalprice}</span>;
   };
   countTotal = () => {
     let totalprice = 0;
@@ -99,9 +79,12 @@ export class CartView extends Component {
     if (this.props.isSignedIn) {
       if (this.props.cart !== null) {
         return (
-          <div className="ui container" style={{ justifyContent: "center" }}>
+          <div
+            className="ui container segment"
+            style={{ justifyContent: "center" }}
+          >
             {this.renderWarningPanelForlAnonymoust()}
-            <div className="ui celled massive list">
+            <div className="ui grid">
               {this.renderList(Object.values(this.props.cart))}
             </div>
 

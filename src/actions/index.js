@@ -118,7 +118,7 @@ export const itemFetch = (id) => async (dispatch) => {
     payload: response[id],
   });
 };
-export const itemImageDelete = (imageUrl) => {
+export const itemImageDelete = (imageUrl) => () => {
   firebaseConnect
     .storage()
     .refFromURL(imageUrl)
@@ -137,7 +137,7 @@ export const itemDelete = (id) => async (dispatch, getState) => {
     .then(() => {
       if (getState().items[id].images)
         itemImageDelete(getState().items[id].images);
-      NotificationManager.success("", "Deleted", 2000);
+      NotificationManager.success("", "Item Deleted", 2000);
       dispatch({
         type: ITEM_DELETE,
         payload: id,
@@ -169,7 +169,7 @@ export const itemEdit = (id, formValues) => async (dispatch) => {
 
 export const itemSorted = (name, value) => (dispatch, getState) => {
   //sortedItems is an array sent to reducer, reducer will convert to Object
-  // console.log(name, value);
+
   let sortedItems = [];
   let originalItems = getState().items;
   switch (name) {
@@ -199,7 +199,6 @@ export const itemSorted = (name, value) => (dispatch, getState) => {
         sortedItems = Object.values(originalItems).sort(
           (a, b) => a.price - b.price
         );
-        console.log("low to high");
       } else {
         //sort from high to low price
         sortedItems = Object.values(originalItems)
@@ -235,7 +234,6 @@ export const itemSorted = (name, value) => (dispatch, getState) => {
 
     //   break;
     default:
-      console.log("no sort");
   }
   dispatch({
     type: ITEM_SORTED,

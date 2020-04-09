@@ -5,7 +5,7 @@ import "firebase/auth";
 // import firebaseui from "firebaseui";
 import { Link } from "react-router-dom";
 
-import "./auth.css";
+import "../css/auth.css";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
@@ -159,7 +159,6 @@ class Auth extends Component {
     this.setState({ showVerifyPassword: value });
   };
   render() {
-    console.log(firebaseConnect);
     return (
       <div className="ui  container ">
         <div className="login-container">
