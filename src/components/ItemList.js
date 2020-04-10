@@ -46,78 +46,91 @@ export class ItemList extends Component {
   //   return str.slice(0, num) + "...";
   // };
   renderList = (items) => {
-    return items.map((item) => {
-      return (
-        <div className="card  " key={item.id}>
-          <div
-            className="blurring dimmable image "
-            // style={{ position: "relative" }}
-          >
-            <img
-              className="imageCartList  myImageCardList"
-              src={
-                !item.images
-                  ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
-                  : item.images
-              }
-              alt="hinh"
-            ></img>
-            <button
-              className="ui button primary myAddButton"
-              onClick={() => this.addToCartHandler(item)}
+    if (items.length === 0) {
+      return <h1>Sorry, We don't have the Item you need !!!</h1>;
+    } else
+      return items.map((item) => {
+        return (
+          <div className="card  " key={item.id}>
+            <div
+              className="blurring dimmable image "
+              // style={{ position: "relative" }}
             >
-              <i className="shopping cart icon"></i>
-              Add
-            </button>
+              <img
+                className="imageCartList  myImageCardList"
+                src={
+                  !item.images
+                    ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
+                    : item.images
+                }
+                alt="hinh"
+              ></img>
+              <button
+                className="ui button primary myAddButton"
+                onClick={() => this.addToCartHandler(item)}
+              >
+                <i className="shopping cart icon"></i>
+                Add
+              </button>
+            </div>
+
+            <div className="content">
+              {/* <div className=" ui buttons right floated"> */}
+
+              {/* </div> */}
+              <div className="header myItemName">
+                {shortString(item.name, 50)}
+              </div>
+              <div className="meta">
+                <p className="myPrice">${item.price}</p>
+              </div>
+
+              <div className="extra content">{this.renderAdmin(item)}</div>
+            </div>
           </div>
 
-          <div className="content">
-            {/* <div className=" ui buttons right floated"> */}
-
-            {/* </div> */}
-            <div className="header myItemName">
-              {shortString(item.name, 50)}
-            </div>
-            <div className="meta">
-              <p className="myPrice">${item.price}</p>
-            </div>
-
-            <div className="extra content">{this.renderAdmin(item)}</div>
-          </div>
-        </div>
-
-        // <div key={item.id} className="item">
-        //   {item.name}/${item.price}
-        //   <div className=" ui buttons right floated">
-        //     {this.renderAdmin(item)}
-        //     <button
-        //       className="ui button primary"
-        //       onClick={() => this.props.cartAdd(item)}
-        //     >
-        //       <i className="shopping cart icon"></i>
-        //       Add to cart
-        //     </button>
-        //   </div>
-        // </div>
-      );
-    });
+          // <div key={item.id} className="item">
+          //   {item.name}/${item.price}
+          //   <div className=" ui buttons right floated">
+          //     {this.renderAdmin(item)}
+          //     <button
+          //       className="ui button primary"
+          //       onClick={() => this.props.cartAdd(item)}
+          //     >
+          //       <i className="shopping cart icon"></i>
+          //       Add to cart
+          //     </button>
+          //   </div>
+          // </div>
+        );
+      });
+  };
+  myFilter = (items) => {
+    if (this.props.isSearching) {
+      console.log("key:", this.props.searchKey);
+      return items.filter((item) => {
+        console.log(
+          item.name.toLowerCase().includes(this.props.searchKey.toLowerCase())
+        );
+        return item.name
+          .toLowerCase()
+          .includes(this.props.searchKey.toLowerCase());
+      });
+    } else return items;
   };
   render() {
-    // console.log(this.props.sortAndFilterFormValue);
-    if (
-      Object.keys(this.props.items).length === 0 &&
-      !this.props.sortAndFilterFormValue
-    ) {
+    if (Object.keys(this.props.items).length === 0) {
       return <Loading />;
-    } else
+    } else {
       return (
         <div className="ui fluid container ">
           <SortAndFilter></SortAndFilter>
           <div className="ui special cards centered">
-            {this.renderList(Object.values(this.props.items))}
+            {this.renderList(this.myFilter(Object.values(this.props.items)))}
           </div>
         </div>
       );
+    }
   }
 }
 const mapStateToProps = (state) => {
@@ -126,6 +139,8 @@ const mapStateToProps = (state) => {
     searchform: state.form.SortAndFilterForm,
     currentUserId: state.auth.userId,
     isSignedIn: state.auth.isSignedIn,
+    isSearching: state.filter.isSearching,
+    searchKey: state.filter.searchKey,
   };
 };
 export default connect(mapStateToProps, {

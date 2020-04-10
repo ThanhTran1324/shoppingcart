@@ -4,8 +4,9 @@ import {
   ITEMS_FETCH,
   ITEM_FETCH,
   ITEM_DELETE,
-  ITEM_SORTED
+  ITEM_SORTED,
 } from "../actions/types";
+
 import _ from "lodash";
 export default (state = {}, action) => {
   switch (action.type) {

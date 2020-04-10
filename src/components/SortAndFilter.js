@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { itemSorted } from "../actions/";
 import { Field, reduxForm } from "redux-form";
-
+import { itemSearch } from "../actions/filterActions";
 export class SortAndFilter extends Component {
+  componentWillUnmount = () => {
+    // Clean up Search
+    this.props.itemSearch("");
+  };
+
   renderSelecter = ({ name, input, label, option }) => {
     return (
-      <div className="ui three column form">
+      <div className="ui four column form noPadding">
         {/* Sort Dropdown */}
 
         <select {...input} onChange={this.handleChange} className="ui dropdown">
@@ -34,36 +39,29 @@ export class SortAndFilter extends Component {
   };
 
   handleOnSearch = (formValues) => {
-    // console.log(formValues);
-    // this.props.itemSorted("searchByName", formValues.search);
+    this.props.itemSearch(formValues.search);
   };
   renderSearch = ({ input, name }) => {
+    console.log(input);
     return (
-      <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
-        <div className="ui input " style={{ width: "100%" }}>
-          <input {...input} type="text" placeholder="Search..."></input>{" "}
-          <button type="submit" className="ui button my-search-button">
-            <i className="search icon"></i>
-          </button>
-        </div>
-      </form>
+      <div className="ui  ui four column form noPadding">
+        <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
+          <input type="text" placeholder="Search" {...input}></input>
+        </form>
+      </div>
     );
   };
   render() {
     // console.log(this.props);
     return (
       <div className="ui grid container " style={{ marginTop: "10px" }}>
-        {/* here */}
-        {/* <div className="three wide column">
-            <Field name="search" component={this.renderSearch}></Field>
-          </div> */}
-        <div
-          className="four column row"
-          style={{ width: "100%", paddingLeft: 0, paddingRight: 0 }}
-        >
-          <div className="ui  ui three column form">
-            <input placeholder="Search"></input>
-          </div>
+        <div className="four column row noPadding">
+          <Field
+            name="search"
+            component={this.renderSearch}
+            initialValues={{ search: "hello" }}
+          ></Field>
+
           <Field
             name="price"
             label="Price"
@@ -94,7 +92,9 @@ const mapStateToProps = (state) => {
     items: state.items,
   };
 };
-const wrapper = connect(mapStateToProps, { itemSorted })(SortAndFilter);
+const wrapper = connect(mapStateToProps, { itemSorted, itemSearch })(
+  SortAndFilter
+);
 export default reduxForm({
   form: "SortAndFilterForm",
 })(wrapper);
