@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import history from "../history";
-const Modal = props => {
+const Modal = (props) => {
   return ReactDOM.createPortal(
     <div
-      onClick={() => history.push("/")}
+      onClick={() => history.push("/shoppingcart")}
       className="ui dimmer modals visible active"
     >
       <div
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         className="ui standard modal visible active"
       >
         <div className="header">{props.header}</div>

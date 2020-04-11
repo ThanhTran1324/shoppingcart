@@ -1,0 +1,16 @@
+.myItemInfo {
+    font-size: 15px;
+}
+
+.myItemViewPrice {
+    margin: 0;
+    color: #FF9200;
+    font-size: 35px;
+    display: inline-block !important;
+}
+
+@media screen and (min-width:768px) {
+    .myItemInfo {
+        font-size: 20px;
+    }
+}

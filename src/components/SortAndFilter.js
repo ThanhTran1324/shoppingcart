@@ -4,11 +4,6 @@ import { itemSorted } from "../actions/";
 import { Field, reduxForm } from "redux-form";
 import { itemSearch } from "../actions/filterActions";
 export class SortAndFilter extends Component {
-  componentWillUnmount = () => {
-    // Clean up Search
-    this.props.itemSearch("");
-  };
-
   renderSelecter = ({ name, input, label, option }) => {
     return (
       <div className="ui four column form noPadding">
@@ -42,20 +37,33 @@ export class SortAndFilter extends Component {
     this.props.itemSearch(formValues.search);
   };
   renderSearch = ({ input, name }) => {
-    console.log(input);
     return (
       <div className="ui  ui four column form noPadding">
         <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
-          <input type="text" placeholder="Search" {...input}></input>
+          <div class="ui search">
+            <div class="ui icon input">
+              <input type="text" placeholder="Search..." {...input}></input>
+
+              <i class="search icon"></i>
+            </div>
+          </div>
         </form>
       </div>
     );
   };
   render() {
-    // console.log(this.props);
     return (
-      <div className="ui grid container " style={{ marginTop: "10px" }}>
-        <div className="four column row noPadding">
+      <div
+        className="ui grid container myFilterContainer"
+        style={{ marginTop: "10px", marginBottom: "10px" }}
+      >
+        <div
+          className="four column row "
+          style={{
+            backgroundColor: "rgba(208, 214, 214, 0.514)",
+            borderRadius: "5px",
+          }}
+        >
           <Field
             name="search"
             component={this.renderSearch}

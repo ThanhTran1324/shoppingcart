@@ -24,9 +24,9 @@ let items = firebaseConnect.database().ref("items");
 export const signIn = (userId, isAnonymous) => async (dispatch) => {
   if (isAnonymous)
     NotificationManager.success(
-      "Please Upgrade To Permanent User To Have Better Service !",
-      "WelCome Back",
-      2000
+      "Your Shopping Cart Items Will Be Added When You Create a New Account.",
+      "Anonymous Login Success",
+      5000
     );
   else NotificationManager.success("Login Success", "Success", 2000);
   await dispatch({

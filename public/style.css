@@ -1,83 +1,21 @@
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+.ui.container.fluid {
+  margin: 0 !important;
 }
 
-.lighter-text {
+.notification-container {
+  top: 80px;
+}
+
+/* .lighter-text {
   color: #abb0be;
 }
 
 .main-color-text {
   color: #6394f8;
-}
-
-nav {
-  padding: 20px 0 40px 0;
-  background: #f8f8f8;
-  font-size: 16px;
-}
-
-nav .navbar-left {
-  float: left;
-}
-
-nav .navbar-right {
-  float: right;
-}
-
-nav ul li {
-  display: inline;
-  padding-left: 20px;
-}
-
-nav ul li a {
-  color: #777777;
-  text-decoration: none;
-}
-
-nav ul li a:hover {
-  color: black;
-}
+} */
 
 
-
-
-.ui.container.fluid {
-  margin: 0 !important;
-}
-
-
-
-.myNavBar {
-  margin: auto !important;
-  width: 100%;
-  padding: 0 !important;
-}
-
-@media screen and (min-width:992px) {
-  .myNavBar {
-    width: 85vw;
-  }
-
-}
-
-.badge {
-  background-color: rgb(241, 20, 20);
-  border-radius: 10px;
-  color: white;
-  display: inline-block;
-  font-size: 12px;
-  line-height: 1;
-  padding: 3px 7px;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-
-
-.shopping-cart {
+/* .shopping-cart {
   margin: 20px 0;
   float: right;
   background: white;
@@ -136,15 +74,15 @@ nav ul li a:hover {
   border-bottom-color: white;
   border-width: 8px;
   margin-left: -8px;
-}
+} */
 
-.cart-icon {
+/* .cart-icon {
   color: #515783;
   font-size: 24px;
   margin-right: 7px;
   float: left;
-}
-
+} */
+/* 
 .button {
   background: #6394f8;
   color: white;
@@ -166,19 +104,4 @@ nav ul li a:hover {
   display: table;
   clear: both;
 }
-
-
-
-
-.my_forgot_password_text {
-  text-transform: uppercase;
-  color: red;
-}
-
-.my-search-button {
-  color: red !important;
-}
-
-.notification-container {
-  top: 80px;
-}
+ */

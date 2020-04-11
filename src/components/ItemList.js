@@ -56,15 +56,17 @@ export class ItemList extends Component {
               className="blurring dimmable image "
               // style={{ position: "relative" }}
             >
-              <img
-                className="imageCartList  myImageCardList"
-                src={
-                  !item.images
-                    ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
-                    : item.images
-                }
-                alt="hinh"
-              ></img>
+              <Link to={`/shoppingcart/item/view/${item.id}`}>
+                <img
+                  className="imageCartList  myImageCardList"
+                  src={
+                    !item.images
+                      ? "https://firebasestorage.googleapis.com/v0/b/shoppingcart-f5bc6.appspot.com/o/donut.jpg?alt=media&token=dae66b8a-f9dd-451b-b13d-3ff658e6dd28"
+                      : item.images
+                  }
+                  alt="hinh"
+                ></img>
+              </Link>
               <button
                 className="ui button primary myAddButton"
                 onClick={() => this.addToCartHandler(item)}
@@ -79,7 +81,9 @@ export class ItemList extends Component {
 
               {/* </div> */}
               <div className="header myItemName">
-                {shortString(item.name, 50)}
+                <Link to={`/shoppingcart/item/view/${item.id}`}>
+                  {shortString(item.name, 50)}
+                </Link>
               </div>
               <div className="meta">
                 <p className="myPrice">${item.price}</p>
@@ -107,11 +111,7 @@ export class ItemList extends Component {
   };
   myFilter = (items) => {
     if (this.props.isSearching) {
-      console.log("key:", this.props.searchKey);
       return items.filter((item) => {
-        console.log(
-          item.name.toLowerCase().includes(this.props.searchKey.toLowerCase())
-        );
         return item.name
           .toLowerCase()
           .includes(this.props.searchKey.toLowerCase());
@@ -124,7 +124,9 @@ export class ItemList extends Component {
     } else {
       return (
         <div className="ui fluid container ">
-          <SortAndFilter></SortAndFilter>
+          <SortAndFilter
+            initialValues={{ search: this.props.searchKey }}
+          ></SortAndFilter>
           <div className="ui special cards centered">
             {this.renderList(this.myFilter(Object.values(this.props.items)))}
           </div>

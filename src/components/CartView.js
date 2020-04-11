@@ -75,6 +75,20 @@ export class CartView extends Component {
         ></LoginRequiteBanner>
       );
   };
+  renderTotalAndPaypal = () => {
+    return (
+      <div className="ui container totalAmountAndPaypalContainer">
+        <h3>
+          Subtotal ({Object.keys(this.props.cart).length} item):
+          {this.renderTotal()}
+        </h3>
+        <MyPaypalButton
+          description="Paypal Buttons"
+          price={this.countTotal()}
+        ></MyPaypalButton>
+      </div>
+    );
+  };
   render() {
     if (this.props.isSignedIn) {
       if (this.props.cart !== null) {
@@ -88,21 +102,7 @@ export class CartView extends Component {
               {this.renderList(Object.values(this.props.cart))}
             </div>
 
-            <div className="ui container " style={{ width: "500px" }}>
-              {" "}
-              <h3>
-                Subtotal ({Object.keys(this.props.cart).length} item):
-                {this.renderTotal()}
-              </h3>
-              {this.countTotal() !== 0 ? (
-                <MyPaypalButton
-                  description="item cui bap"
-                  price={this.countTotal()}
-                ></MyPaypalButton>
-              ) : (
-                ""
-              )}
-            </div>
+            {this.countTotal() !== 0 ? this.renderTotalAndPaypal() : ""}
           </div>
         );
       } else return <div>Your Cart is empty !</div>;

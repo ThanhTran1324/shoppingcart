@@ -40,7 +40,7 @@ class App extends React.Component {
                 component={ItemDelete}
               ></Route>
               <Route
-                path="/shoppingcart/items/view/:id"
+                path="/shoppingcart/item/view/:id"
                 exact
                 component={ItemView}
               ></Route>

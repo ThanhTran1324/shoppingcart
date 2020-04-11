@@ -1,0 +1,77 @@
+/* nav {
+    padding: 20px 0 40px 0;
+    background: #f8f8f8;
+    font-size: 16px;
+  }
+  
+  nav .navbar-left {
+    float: left;
+  }
+  
+  nav .navbar-right {
+    float: right;
+  }
+  
+  nav ul li {
+    display: inline;
+    padding-left: 20px;
+  }
+  
+  nav ul li a {
+    color: #777777;
+    text-decoration: none;
+  }
+  
+  nav ul li a:hover {
+    color: black;
+  } */
+@import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
+
+.myNavBar {
+
+  margin: auto !important;
+  width: 100%;
+  padding: 0px !important;
+}
+
+.myNavBarLink {
+  padding: 2px;
+  font-size: 15px !important;
+  font-weight: bolder !important;
+  font-family: 'Oswald', sans-serif !important;
+}
+
+.thanhLogo {
+  border-radius: 10px;
+  padding-right: 2px;
+
+}
+
+@media screen and (min-width:992px) {
+  .myNavBar {
+    width: 85vw;
+  }
+
+  .myNavBarLink {
+    padding: 0;
+    font-size: 20px !important;
+  }
+}
+
+.thanhLogo {
+  width: 60px !important;
+  padding-right: 5px;
+}
+
+.badge {
+  background-color: rgb(241, 20, 20);
+  border-radius: 10px;
+  color: white;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}

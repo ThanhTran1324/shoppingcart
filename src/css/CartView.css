@@ -33,6 +33,14 @@
 
 }
 
+.totalAmountAndPaypalContainer {
+
+    width: 500px;
+    position: relative;
+    margin-top: 30px;
+
+}
+
 .myTotalAmount {
     color: #FF9200;
     font-size: 30px;

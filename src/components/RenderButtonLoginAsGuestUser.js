@@ -11,7 +11,11 @@ export class RenderButtonLoginAsGuestUser extends Component {
           onClick={this.props.signInAsAnonymous}
           className="ui teal google button my-google-login"
         >
-          <i className="user secret icon"></i>Login As Guest User
+          <i
+            className="user secret icon"
+            style={{ fontSize: "25px", color: "red" }}
+          ></i>
+          Anonymous Login
         </button>
       );
     else if (this.props.isSignedIn && this.props.isAnonymous) {
@@ -27,10 +31,10 @@ export class RenderButtonLoginAsGuestUser extends Component {
     }
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isSignedIn: state.auth.isSignedIn,
-    isAnonymous: state.auth.isAnonymous
+    isAnonymous: state.auth.isAnonymous,
   };
 };
 export default connect(mapStateToProps, { signInAsAnonymous })(

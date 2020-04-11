@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import { cartFetch } from "../actions/cartActions";
 import { signIn, signOut } from "../actions/";
+import thanh_logo from "../images/thanh_logo.jpg";
+import "../css/Header.css";
 class Header extends React.Component {
   componentDidMount = async () => {
     firebaseConnect.analytics();
@@ -42,8 +44,13 @@ class Header extends React.Component {
   render() {
     return (
       <div className="myNavBar">
-        <div className="ui teal four item inverted menu">
+        <div className="ui teal four item inverted menu myNavBarLink">
           <Link to="/shoppingcart/" className=" item">
+            <img
+              src={thanh_logo}
+              alt="thanh_logo"
+              className="  thanhLogo"
+            ></img>
             Home
           </Link>
           <Link to="/shoppingcart/items/new" className="item">
