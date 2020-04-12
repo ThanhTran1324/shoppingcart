@@ -34,10 +34,12 @@
 }
 
 .totalAmountAndPaypalContainer {
-
-    width: 500px;
-    position: relative;
     margin-top: 30px;
+}
+
+.myPaypalContainer {
+    margin: auto;
+    width: 50vw !important;
 
 }
 

@@ -82,10 +82,12 @@ export class CartView extends Component {
           Subtotal ({Object.keys(this.props.cart).length} item):
           {this.renderTotal()}
         </h3>
-        <MyPaypalButton
-          description="Paypal Buttons"
-          price={this.countTotal()}
-        ></MyPaypalButton>
+        <div className="myPaypalContainer">
+          <MyPaypalButton
+            description="Paypal Buttons"
+            price={this.countTotal()}
+          ></MyPaypalButton>
+        </div>
       </div>
     );
   };

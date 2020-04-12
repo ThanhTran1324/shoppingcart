@@ -8,6 +8,7 @@ import SortAndFilter from "./SortAndFilter";
 import Loading from "./Loading";
 import { shortString } from "./Utility";
 import "../css/ItemList.css";
+
 export class ItemList extends Component {
   componentDidMount() {
     this.props.itemsFetch();
@@ -45,6 +46,7 @@ export class ItemList extends Component {
   //   if (str.length <= num) return str;
   //   return str.slice(0, num) + "...";
   // };
+
   renderList = (items) => {
     if (items.length === 0) {
       return <h1>Sorry, We don't have the Item you need !!!</h1>;
@@ -53,8 +55,9 @@ export class ItemList extends Component {
         return (
           <div className="card  " key={item.id}>
             <div
-              className="blurring dimmable image "
-              // style={{ position: "relative" }}
+              // className="blurring dimmable image "
+              className="myImageContainer"
+              style={{ backgroundColor: "white" }}
             >
               <Link to={`/shoppingcart/item/view/${item.id}`}>
                 <img

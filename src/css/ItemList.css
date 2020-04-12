@@ -11,13 +11,13 @@
 
 .myImageCardList {
     width: 100%;
-    height: 290px;
+    height: 100%;
     object-fit: fill;
 }
 
 .myAddButton {
     z-index: 10 !important;
-    right: -3px !important;
+    right: -4px !important;
     background-color: rgba(32, 132, 208, 0.7) !important;
     position: absolute;
     bottom: 0;
@@ -29,4 +29,10 @@
 
 .myItemContainer {
     margin: 5px 30px !important;
+}
+
+.myImageContainer {
+    width: 290px;
+    height: 290px;
+    position: relative;
 }
