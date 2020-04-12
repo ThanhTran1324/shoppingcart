@@ -1,75 +1,71 @@
 .myItemNameCart {
-    color: #0167C0;
-    font-size: 15px;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    text-overflow: ellipsis;
-
+  color: #0167c0;
+  font-size: 15px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  text-overflow: ellipsis;
 }
 
-
 .myRemoveButton {
-    margin-top: 5px !important;
-    margin-left: -5px !important;
-    top: 70%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    position: absolute;
-    top: 80%;
+  margin-top: 5px !important;
+  margin-left: -5px !important;
+  top: 70%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  position: absolute;
+  top: 80%;
 }
 
 .myCartViewPrice {
-    color: #FF9200;
-    top: 50%;
+  color: #ff9200;
+  top: 50%;
 
-    font-size: 20px;
-    position: absolute;
+  font-size: 20px;
+  position: absolute;
 
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .totalAmountAndPaypalContainer {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .myPaypalContainer {
-    margin: auto;
-    width: 50vw !important;
-
+  margin: auto !important;
+  width: 50vw !important;
 }
 
 .myTotalAmount {
-    color: #FF9200;
-    font-size: 30px;
+  color: #ff9200;
+  font-size: 30px;
 }
 
 .itemContainerCart {
-    border-bottom: solid 1px rgba(128, 128, 128, 0.5);
+  border-bottom: solid 1px rgba(128, 128, 128, 0.5);
 }
 
-@media screen and (min-width:768px) {
-    .myItemNameCart {
-        font-size: 25px;
+@media screen and (min-width: 768px) {
+  .myItemNameCart {
+    font-size: 25px;
+  }
 
-    }
+  .myItemNameCart {
+    font-size: 20px;
+  }
 
-    .myItemNameCart {
-        font-size: 20px;
-    }
+  .myCartViewPrice {
+    margin-left: 40px !important;
+  }
 
-
-
-    .myCartViewPrice {
-        margin-left: 40px !important;
-    }
-
-    .myRemoveButton {
-        margin-left: 40px !important;
-        top: 85%;
-    }
+  .myRemoveButton {
+    margin-left: 40px !important;
+    top: 85%;
+  }
+  .myPaypalContainer {
+    width: 40vw !important;
+  }
 }

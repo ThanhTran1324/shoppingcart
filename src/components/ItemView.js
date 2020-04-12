@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./Modal";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import history from "../history";
 import { itemFetch, signInAsAnonymous } from "../actions";
 import { cartAdd } from "../actions/cartActions";
@@ -14,14 +14,15 @@ class ItemView extends Component {
   addToCartHandler = (item) => {
     this.props.signInAsAnonymous();
     this.props.cartAdd(item);
-    history.push("/shoppingcart");
+    history.goBack();
   };
+
   actions = () => {
     return (
       <React.Fragment>
-        <Link to="/shoppingcart" className="ui button">
+        <button onClick={() => history.goBack()} className="ui button">
           Cancel
-        </Link>
+        </button>
         <button
           className="ui button primary"
           onClick={() => this.addToCartHandler(this.props.item)}
