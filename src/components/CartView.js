@@ -7,9 +7,10 @@ import LoginRequiteBanner from "./LoginRequiteBanner";
 import "../css/CartView.css";
 import { shortString } from "./Utility";
 export class CartView extends Component {
-  state = {
-    total: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   componentDidMount() {
     this.props.cartFetch();
@@ -18,7 +19,7 @@ export class CartView extends Component {
     return items.map((item) => {
       return (
         <div key={item.id} className="three column row itemContainerCart">
-          <div class="four wide column ">
+          <div className="four wide column ">
             <img
               className="ui tiny image centered"
               src={
@@ -29,12 +30,12 @@ export class CartView extends Component {
               alt={item.name}
             ></img>
           </div>
-          <div class="eight wide column ">
+          <div className="eight wide column ">
             <span className="myItemNameCart ">
               {shortString(item.name, 55)}
             </span>
           </div>
-          <div class="four wide column">
+          <div className="four wide column">
             <div className="myCartViewPrice ">/${item.price}</div>
             <button
               onClick={() => this.props.cartRemove(item.id)}
@@ -48,22 +49,15 @@ export class CartView extends Component {
       );
     });
   };
-  renderTotal = () => {
-    var totalprice = 0;
-    if (this.props.cart !== null) {
-      Object.values(this.props.cart).map((item) => {
-        return (totalprice += parseInt(item.price));
-      });
-    }
 
-    return <span className="myTotalAmount"> ${totalprice}</span>;
-  };
-  countTotal = () => {
-    let totalprice = 0;
-    Object.values(this.props.cart).map((item) => {
-      return (totalprice += parseInt(item.price));
-    });
-    return totalprice;
+  countTotal = (cartItems) => {
+    if (cartItems) {
+      let totalAmount = 0;
+      Object.values(cartItems).map((item) => {
+        return (totalAmount += parseFloat(item.price));
+      });
+      return totalAmount.toFixed(2);
+    } else return 0;
   };
   renderWarningPanelForlAnonymoust = () => {
     if (this.props.isAnonymous)
@@ -75,25 +69,27 @@ export class CartView extends Component {
         ></LoginRequiteBanner>
       );
   };
-  renderTotalAndPaypal = () => {
-    return (
-      <div className="ui container totalAmountAndPaypalContainer">
-        <h3>
-          Subtotal ({Object.keys(this.props.cart).length} item):
-          {this.renderTotal()}
-        </h3>
-        <div className="myPaypalContainer">
-          <MyPaypalButton
-            description="Paypal Buttons"
-            price={this.countTotal()}
-          ></MyPaypalButton>
+  renderTotalAndPaypal = (cartItems) => {
+    const totalAmount = this.countTotal(cartItems);
+    if (totalAmount > 0)
+      return (
+        <div className="ui container totalAmountAndPaypalContainer">
+          <h3>
+            Subtotal ({Object.keys(cartItems).length} item):
+            <span className="myTotalAmount"> ${totalAmount}</span>
+          </h3>
+          <div className="myPaypalContainer">
+            <MyPaypalButton
+              description="Paypal Buttons"
+              price={totalAmount}
+            ></MyPaypalButton>
+          </div>
         </div>
-      </div>
-    );
+      );
   };
   render() {
-    if (this.props.isSignedIn) {
-      if (this.props.cart !== null) {
+    if (this.props.isSignedIn && this.props.cart) {
+      if (Object.values(this.props.cart).length > 0) {
         return (
           <div
             className="ui container segment"
@@ -104,10 +100,15 @@ export class CartView extends Component {
               {this.renderList(Object.values(this.props.cart))}
             </div>
 
-            {this.countTotal() !== 0 ? this.renderTotalAndPaypal() : ""}
+            {this.renderTotalAndPaypal(this.props.cart)}
           </div>
         );
-      } else return <div>Your Cart is empty !</div>;
+      } else
+        return (
+          <div>
+            <h1 style={{ textAlign: "center" }}>Your Cart is empty !</h1>
+          </div>
+        );
     } else {
       return (
         <LoginRequiteBanner

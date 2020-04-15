@@ -10,6 +10,7 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
 import { NotificationManager } from "react-notifications";
+
 import history from "../history";
 // import GoogleAuth from "./GoogleAuth";
 
@@ -44,6 +45,8 @@ class Auth extends Component {
         .signInWithEmailAndPassword(formValue.email, formValue.password)
         .then((result) => {
           this.setState({ error: "Login Success" });
+
+          // this.props.signIn(result.user.uid, result.isAnonymous);
           history.push("/shoppingcart");
         })
         .catch((error) => {
@@ -85,6 +88,7 @@ class Auth extends Component {
           .auth()
           .createUserWithEmailAndPassword(formValue.email, formValue.password)
           .then((result) => {
+            // this.props.signIn(result.user.uid, result.isAnonymous);
             history.push(`/shoppingcart`);
           })
           .catch((error) => {
@@ -112,12 +116,14 @@ class Auth extends Component {
       .auth()
       .signInWithPopup(provider)
       .then(function (result) {
+        console.log(result);
         // This gives you a Google Access Token. You can use it to access the Google API.
         // var token = result.credential.accessToken;
         // // The signed-in user info.
         // var user = result.user;
         // ...
-        if (result.user) history.push("/shoppingcart");
+
+        history.push("/shoppingcart");
       })
       .catch(function (error) {
         // Handle Errors here.
@@ -128,6 +134,7 @@ class Auth extends Component {
         // // The firebase.auth.AuthCredential type that was used.
         // var credential = error.credential;
         // ...
+        NotificationManager.error(error.message, "Error!", 2000);
       });
   };
 
@@ -209,6 +216,7 @@ class Auth extends Component {
               </button>
             </form>
           </div>
+
           <button
             onClick={this.googleLogin}
             className="ui red google button my-google-login"

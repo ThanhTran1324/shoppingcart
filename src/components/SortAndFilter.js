@@ -40,11 +40,11 @@ export class SortAndFilter extends Component {
     return (
       <div className="ui  ui four column form noPadding">
         <form onSubmit={this.props.handleSubmit(this.handleOnSearch)}>
-          <div class="ui search">
-            <div class="ui icon input">
+          <div className="ui search">
+            <div className="ui icon input">
               <input type="text" placeholder="Search..." {...input}></input>
 
-              <i class="search icon"></i>
+              <i className="search icon"></i>
             </div>
           </div>
         </form>

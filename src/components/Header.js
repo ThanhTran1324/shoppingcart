@@ -36,6 +36,20 @@ class Header extends React.Component {
       );
     else
       return (
+        //test logout
+        // <div>
+        //   <Link to="/shoppingcart/login/" className="item">
+        //     Login
+        //   </Link>
+        //   <Link
+        //     to="/shoppingcart"
+        //     onClick={this.props.signOut}
+        //     className="item "
+        //   >
+        //     Logout
+        //   </Link>
+        // </div>
+
         <Link to="/shoppingcart/login/" className="item">
           Login
         </Link>

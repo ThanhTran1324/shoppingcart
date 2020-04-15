@@ -11,7 +11,7 @@ import Header from "./Header";
 import Auth from "./Auth";
 import CartView from "./CartView";
 import ForGotPassword from "./ForGotPassword";
-
+import LoginPrompt from "./LoginPrompt";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 class App extends React.Component {
@@ -44,7 +44,11 @@ class App extends React.Component {
                 exact
                 component={ItemView}
               ></Route>
-
+              <Route
+                path="/shoppingcart/loginprompt"
+                exact
+                component={LoginPrompt}
+              ></Route>
               <Route
                 path="/shoppingcart/cart/view"
                 exact

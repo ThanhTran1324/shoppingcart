@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import history from "../history";
-const NotificateModal = ({ header, content, time, linkTo }) => {
+const sNotificateModal = ({ header, content, time, linkTo }) => {
   //
-  setTimeout(function() {
+  setTimeout(function () {
     // history.push("/shoppingcart");
   }, time);
   return ReactDOM.createPortal(
@@ -12,7 +12,7 @@ const NotificateModal = ({ header, content, time, linkTo }) => {
       className="ui dimmer modals visible active"
     >
       <div
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         className="ui standard modal visible active"
       >
         <div className="header">{header}</div>
@@ -23,4 +23,4 @@ const NotificateModal = ({ header, content, time, linkTo }) => {
   );
 };
 
-export default NotificateModal;
+export default sNotificateModal;

@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { signInAsAnonymous } from "../actions";
 import { Link } from "react-router-dom";
 export class RenderButtonLoginAsGuestUser extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   render() {
     if (!this.props.isSignedIn)
       //not login
@@ -18,7 +22,7 @@ export class RenderButtonLoginAsGuestUser extends Component {
           Anonymous Login
         </button>
       );
-    else if (this.props.isSignedIn && this.props.isAnonymous) {
+    else if (this.props.isAnonymous) {
       //logined as guest
       return (
         <Link

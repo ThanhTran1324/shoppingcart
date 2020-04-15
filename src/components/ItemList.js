@@ -6,7 +6,9 @@ import { itemsFetch, signInAsAnonymous } from "../actions";
 import { cartAdd } from "../actions/cartActions";
 import SortAndFilter from "./SortAndFilter";
 import Loading from "./Loading";
+
 import { shortString } from "./Utility";
+import history from "../history";
 import "../css/ItemList.css";
 
 export class ItemList extends Component {
@@ -39,8 +41,8 @@ export class ItemList extends Component {
       );
   };
   addToCartHandler = (item) => {
-    this.props.signInAsAnonymous();
-    this.props.cartAdd(item);
+    if (this.props.isSignedIn) this.props.cartAdd(item);
+    else history.push("/shoppingcart/loginprompt");
   };
   // shortString = (str, num) => {
   //   if (str.length <= num) return str;

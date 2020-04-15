@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
 import history from "../history";
-import { itemFetch, signInAsAnonymous } from "../actions";
+import { itemFetch } from "../actions";
 import { cartAdd } from "../actions/cartActions";
 import Loading from "./Loading";
 import "../css/ItemView.css";
@@ -12,9 +12,11 @@ class ItemView extends Component {
     this.props.itemFetch(this.props.match.params.id);
   }
   addToCartHandler = (item) => {
-    this.props.signInAsAnonymous();
-    this.props.cartAdd(item);
-    history.goBack();
+    // this.props.signInAsAnonymous();
+    if (this.props.isSignedIn) {
+      this.props.cartAdd(item);
+      history.goBack();
+    } else history.push("/shoppingcart/loginprompt");
   };
 
   actions = () => {
@@ -35,14 +37,14 @@ class ItemView extends Component {
   renderItemInfo = (item) => {
     return (
       <div className="ui grid">
-        <div class="six wide column">
+        <div className="six wide column">
           <img
             className="ui large image"
             src={item.images}
             alt={item.name + "photo"}
           ></img>
         </div>
-        <div class="ten wide column">
+        <div className="ten wide column">
           <p className="myItemViewPrice">$ {item.price}</p> & FREE Shipping
           <h2 style={{ margin: 0 }}>Product Information</h2>
           <p className="myItemInfo">
@@ -76,10 +78,10 @@ class ItemView extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     item: state.items[ownProps.match.params.id],
+    isSignedIn: state.auth.isSignedIn,
   };
 };
 export default connect(mapStateToProps, {
   itemFetch,
   cartAdd,
-  signInAsAnonymous,
 })(ItemView);

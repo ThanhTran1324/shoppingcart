@@ -46,6 +46,7 @@ export const signInAsAnonymous = () => async (dispatch, getState) => {
         errorMessage = error.message;
         NotificationManager.error(errorMessage, "Error", 2000);
       });
+    history.push("/shoppingcart");
   }
 };
 
