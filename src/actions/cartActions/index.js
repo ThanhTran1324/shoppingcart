@@ -61,8 +61,6 @@ export const cartRemove = (id) => async (dispatch, getState) => {
     });
   }
 };
-export const cartClean = () => {
-  return {
-    type: CART_CLEAN,
-  };
+export const cartClean = () => (dispatch) => {
+  dispatch({ type: CART_CLEAN });
 };

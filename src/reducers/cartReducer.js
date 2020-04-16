@@ -2,7 +2,7 @@ import {
   CART_ADD,
   CART_FETCH,
   CART_REMOVE,
-  CART_CLEAN
+  CART_CLEAN,
 } from "../actions/cartActions/type";
 import _ from "lodash";
 const initialState = {};
@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
     case CART_REMOVE:
       return _.omit(state, action.payload);
     case CART_CLEAN:
-      return null;
+      return {};
     default:
       return state;
   }

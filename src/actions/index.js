@@ -12,6 +12,7 @@ import { cartClean } from "./cartActions/";
 import { v4 as uuidv4 } from "uuid";
 import { firebaseConnect } from "../apis/firebaseShoppingCart";
 import history from "../history";
+
 import firebase from "firebase";
 // import { cartAdd } from "./cartActions";
 // import { CART_CLEAN } from "./cartActions/type";
@@ -167,7 +168,22 @@ export const itemEdit = (id, formValues) => async (dispatch) => {
   });
   history.push("/shoppingcart");
 };
-
+export const firebaseCartClean = () => async (dispatch, getState) => {
+  const userId = getState().auth.userId;
+  if (userId) {
+    await firebaseConnect.database().ref(`/cart/Cart-${userId}`).remove();
+  }
+};
+export const transactionSuccess = (details, data) => (dispatch) => {
+  history.push("/shoppingcart");
+  NotificationManager.success(
+    "Transaction Finished",
+    `Thank You ${details.payer.name.given_name}`,
+    3000
+  );
+  dispatch(cartClean());
+  dispatch(firebaseCartClean());
+};
 export const itemSorted = (name, value) => (dispatch, getState) => {
   //sortedItems is an array sent to reducer, reducer will convert to Object
 

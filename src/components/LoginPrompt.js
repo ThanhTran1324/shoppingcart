@@ -8,18 +8,18 @@ class LoginPrompt extends Component {
   componentDidMount() {}
   actions = () => {
     return (
-      <div class="ui equal width grid">
-        <div class="equal width row">
-          <div class="column">
+      <div className="ui equal width grid">
+        <div className="equal width row">
+          <div className="column">
             <button className="ui teal google button my-google-login">
               <i
-                class="user icon"
+                className="user icon"
                 style={{ fontSize: "25px", color: "green" }}
               ></i>
               Login
             </button>
           </div>
-          <div class="column">
+          <div className="column">
             <RenderButtonLoginAsGuestUser />
           </div>
         </div>
