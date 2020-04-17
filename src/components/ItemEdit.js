@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-
 import ItemForm from "./ItemForm";
-
 import { itemFetch, itemEdit, itemImageDelete } from "../actions";
+import Loading from "./Loading";
 class ItemEdit extends Component {
   componentDidMount() {
     this.props.itemFetch(this.props.match.params.id);
@@ -45,7 +44,7 @@ class ItemEdit extends Component {
           initialValues={_.pick(this.props.item, "name", "price", "images")}
         ></ItemForm>
       );
-    else return "loading";
+    else return <Loading />;
   }
 }
 

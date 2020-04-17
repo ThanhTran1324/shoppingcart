@@ -65,7 +65,7 @@ export class CartView extends Component {
         <LoginRequiteBanner
           banner="Please Login"
           content={`You Are Shopping As Guest User!
-          Please Login To Have Better Service.`}
+          Please Create An Account To Have Better Service.`}
         ></LoginRequiteBanner>
       );
   };

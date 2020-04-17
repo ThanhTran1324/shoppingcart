@@ -7,7 +7,7 @@ import { itemCreate } from "../actions";
 import ItemForm from "./ItemForm";
 
 class ItemNew extends Component {
-  onSubmit = formValue => {
+  onSubmit = (formValue) => {
     this.props.itemCreate(formValue);
   };
 
@@ -19,7 +19,7 @@ class ItemNew extends Component {
         <LoginRequiteBanner
           banner="Please Login"
           content={`You Are Shopping As Guest User!
-        Please Login To Have Better Service.`}
+        Please Create An Account To Have Better Service.`}
         ></LoginRequiteBanner>
       );
     else {
@@ -32,10 +32,10 @@ class ItemNew extends Component {
     }
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isSignedIn: state.auth.isSignedIn,
-    isAnonymous: state.auth.isAnonymous
+    isAnonymous: state.auth.isAnonymous,
   };
 };
 export default connect(mapStateToProps, { itemCreate })(ItemNew);

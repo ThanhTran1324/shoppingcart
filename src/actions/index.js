@@ -120,7 +120,7 @@ export const itemFetch = (id) => async (dispatch) => {
     payload: response[id],
   });
 };
-export const itemImageDelete = (imageUrl) => () => {
+export const itemImageDelete = (imageUrl) => (dispatch) => {
   firebaseConnect
     .storage()
     .refFromURL(imageUrl)
@@ -134,11 +134,14 @@ export const itemImageDelete = (imageUrl) => () => {
 };
 export const itemDelete = (id) => async (dispatch, getState) => {
   const deleteItem = await firebaseConnect.database().ref(`items/${id}`);
+
   deleteItem
     .remove()
     .then(() => {
-      if (getState().items[id].images)
-        itemImageDelete(getState().items[id].images);
+      if (getState().items[id].images) {
+        dispatch(itemImageDelete(getState().items[id].images));
+      }
+
       NotificationManager.success("", "Item Deleted", 2000);
       dispatch({
         type: ITEM_DELETE,
