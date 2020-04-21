@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import RenderButtonLoginAsGuestUser from "./RenderButtonLoginAsGuestUser";
 import { signInAsAnonymous } from "../actions";
+import history from "../history";
 class LoginPrompt extends Component {
   componentDidMount() {}
   actions = () => {
@@ -11,7 +12,10 @@ class LoginPrompt extends Component {
       <div className="ui equal width grid">
         <div className="equal width row">
           <div className="column">
-            <button className="ui teal google button my-google-login">
+            <button
+              onClick={() => history.push("/login")}
+              className="ui teal google button my-google-login"
+            >
               <i
                 className="user icon"
                 style={{ fontSize: "25px", color: "green" }}

@@ -47,7 +47,7 @@ class Auth extends Component {
           this.setState({ error: "Login Success" });
 
           // this.props.signIn(result.user.uid, result.isAnonymous);
-          history.push("/shoppingcart");
+          history.push("/");
         })
         .catch((error) => {
           // Handle Errors here.
@@ -74,7 +74,7 @@ class Auth extends Component {
                 "Successful!",
                 2000
               );
-              history.push("/shoppingcart");
+              history.push("/");
               // console.log("Anonymous account successfully upgraded");
             },
             function (error) {
@@ -89,7 +89,7 @@ class Auth extends Component {
           .createUserWithEmailAndPassword(formValue.email, formValue.password)
           .then((result) => {
             // this.props.signIn(result.user.uid, result.isAnonymous);
-            history.push(`/shoppingcart`);
+            history.push(`/`);
           })
           .catch((error) => {
             //Handle Erros here
@@ -123,7 +123,7 @@ class Auth extends Component {
         // var user = result.user;
         // ...
 
-        history.push("/shoppingcart");
+        history.push("/");
       })
       .catch(function (error) {
         // Handle Errors here.
@@ -153,10 +153,7 @@ class Auth extends Component {
   renderForgetPassword = () => {
     if (!this.state.showVerifyPassword) {
       return (
-        <Link
-          to="/shoppingcart/forgotpassword"
-          className="my_forgot_password_text"
-        >
+        <Link to="/forgotpassword" className="my_forgot_password_text">
           Forgot Your Password
         </Link>
       );

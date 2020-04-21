@@ -16,7 +16,7 @@ class ItemView extends Component {
     if (this.props.isSignedIn) {
       this.props.cartAdd(item);
       history.goBack();
-    } else history.push("/shoppingcart/loginprompt");
+    } else history.push("/loginprompt");
   };
 
   actions = () => {

@@ -30,7 +30,7 @@ class Header extends React.Component {
   renderAuthButton = () => {
     if (this.props.isSignedIn && !this.props.isAnonymous)
       return (
-        <Link to="/shoppingcart" onClick={this.props.signOut} className="item ">
+        <Link to="/" onClick={this.props.signOut} className="item ">
           Logout
         </Link>
       );
@@ -38,11 +38,11 @@ class Header extends React.Component {
       return (
         //test logout
         // <div>
-        //   <Link to="/shoppingcart/login/" className="item">
+        //   <Link to="/login/" className="item">
         //     Login
         //   </Link>
         //   <Link
-        //     to="/shoppingcart"
+        //     to="/"
         //     onClick={this.props.signOut}
         //     className="item "
         //   >
@@ -50,7 +50,7 @@ class Header extends React.Component {
         //   </Link>
         // </div>
 
-        <Link to="/shoppingcart/login/" className="item">
+        <Link to="/login/" className="item">
           Login
         </Link>
       );
@@ -59,7 +59,7 @@ class Header extends React.Component {
     return (
       <div className="myNavBar">
         <div className="ui teal four item inverted menu myNavBarLink">
-          <Link to="/shoppingcart/" className=" item">
+          <Link to="/" className=" item">
             <img
               src={thanh_logo}
               alt="thanh_logo"
@@ -67,10 +67,10 @@ class Header extends React.Component {
             ></img>
             Home
           </Link>
-          <Link to="/shoppingcart/items/new" className="item">
+          <Link to="/items/new" className="item">
             Create Item
           </Link>
-          <Link id="cart" to="/shoppingcart/cart/view" className="item">
+          <Link id="cart" to="/cart/view" className="item">
             {this.renderCartBadge()}
           </Link>
           {this.renderAuthButton()}

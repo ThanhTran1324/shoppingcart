@@ -25,10 +25,7 @@ export class RenderButtonLoginAsGuestUser extends Component {
     else if (this.props.isAnonymous) {
       //logined as guest
       return (
-        <Link
-          to="/shoppingcart/login/"
-          className="ui blue google button my-google-login"
-        >
+        <Link to="/login/" className="ui blue google button my-google-login">
           <i className="user secret icon"></i>Upgrade to permanent user
         </Link>
       );

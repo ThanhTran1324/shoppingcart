@@ -4,11 +4,11 @@ import history from "../history";
 const sNotificateModal = ({ header, content, time, linkTo }) => {
   //
   setTimeout(function () {
-    // history.push("/shoppingcart");
+    // history.push("/");
   }, time);
   return ReactDOM.createPortal(
     <div
-      onClick={() => history.push("/shoppingcart")}
+      onClick={() => history.push("/")}
       className="ui dimmer modals visible active"
     >
       <div

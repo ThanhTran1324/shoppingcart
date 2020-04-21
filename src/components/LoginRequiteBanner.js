@@ -14,7 +14,7 @@ class LoginRequiteBanner extends React.Component {
               <div>
                 Please{" "}
                 {
-                  <Link className="ui teal button" to="/shoppingcart/login">
+                  <Link className="ui teal button" to="/login">
                     Login
                   </Link>
                 }

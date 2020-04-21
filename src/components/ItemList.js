@@ -22,7 +22,7 @@ export class ItemList extends Component {
           <hr></hr>
           <div className="ui large two buttons">
             <Link
-              to={`/shoppingcart/items/delete/${item.id}`}
+              to={`/items/delete/${item.id}`}
               className="ui inverted red button "
               // style={{ whiteSpace: "nowrap" }}
             >
@@ -31,7 +31,7 @@ export class ItemList extends Component {
             </Link>
             <div className="or"></div>
             <Link
-              to={`/shoppingcart/items/edit/${item.id}`}
+              to={`/items/edit/${item.id}`}
               className="ui inverted blue button "
             >
               <i className="edit icon"></i>Edit
@@ -42,7 +42,7 @@ export class ItemList extends Component {
   };
   addToCartHandler = (item) => {
     if (this.props.isSignedIn) this.props.cartAdd(item);
-    else history.push("/shoppingcart/loginprompt");
+    else history.push("/loginprompt");
   };
   // shortString = (str, num) => {
   //   if (str.length <= num) return str;
@@ -61,7 +61,7 @@ export class ItemList extends Component {
               className="myImageContainer"
               style={{ backgroundColor: "white" }}
             >
-              <Link to={`/shoppingcart/item/view/${item.id}`}>
+              <Link to={`/item/view/${item.id}`}>
                 <img
                   className="imageCartList  myImageCardList"
                   src={
@@ -86,7 +86,7 @@ export class ItemList extends Component {
 
               {/* </div> */}
               <div className="header myItemName">
-                <Link to={`/shoppingcart/item/view/${item.id}`}>
+                <Link to={`/item/view/${item.id}`}>
                   {shortString(item.name, 50)}
                 </Link>
               </div>
@@ -135,6 +135,9 @@ export class ItemList extends Component {
           <div className="ui special cards centered">
             {this.renderList(this.myFilter(Object.values(this.props.items)))}
           </div>
+          <button onClick={() => history.push("/shoppingcart/items/new")}>
+            Testing
+          </button>
         </div>
       );
     }

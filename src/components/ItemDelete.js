@@ -11,7 +11,7 @@ class ItemDelete extends Component {
   actions = () => {
     return (
       <React.Fragment>
-        <Link to="/shoppingcart" className="ui button">
+        <Link to="/" className="ui button">
           Cancel
         </Link>
         <button
@@ -40,7 +40,7 @@ class ItemDelete extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    item: state.items[ownProps.match.params.id]
+    item: state.items[ownProps.match.params.id],
   };
 };
 export default connect(mapStateToProps, { itemFetch, itemDelete })(ItemDelete);

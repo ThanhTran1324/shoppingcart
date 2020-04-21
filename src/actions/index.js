@@ -47,7 +47,7 @@ export const signInAsAnonymous = () => async (dispatch, getState) => {
         errorMessage = error.message;
         NotificationManager.error(errorMessage, "Error", 2000);
       });
-    history.push("/shoppingcart");
+    history.push("/");
   }
 };
 
@@ -65,7 +65,7 @@ export const signOut = () => (dispatch) => {
 
   dispatch({ type: SIGN_OUT });
   dispatch(cartClean());
-  history.push("/shoppingcart");
+  history.push("/");
 };
 
 export const itemCreate = (formValues) => async (dispatch, getState) => {
@@ -89,7 +89,7 @@ export const itemCreate = (formValues) => async (dispatch, getState) => {
     type: ITEM_CREATE,
     payload: response,
   });
-  history.push("/shoppingcart");
+  history.push("/");
 };
 
 export const itemsFetch = () => async (dispatch) => {
@@ -153,7 +153,7 @@ export const itemDelete = (id) => async (dispatch, getState) => {
       NotificationManager.error(error.errorMessage, "Error", 2000); // need fix delete error
     });
 
-  history.push("/shoppingcart");
+  history.push("/");
 };
 export const itemEdit = (id, formValues) => async (dispatch) => {
   let editItem = firebaseConnect.database().ref(`items/${id}`);
@@ -169,7 +169,7 @@ export const itemEdit = (id, formValues) => async (dispatch) => {
     type: ITEM_EDIT,
     payload: response,
   });
-  history.push("/shoppingcart");
+  history.push("/");
 };
 export const firebaseCartClean = () => async (dispatch, getState) => {
   const userId = getState().auth.userId;
@@ -178,7 +178,7 @@ export const firebaseCartClean = () => async (dispatch, getState) => {
   }
 };
 export const transactionSuccess = (details, data) => (dispatch) => {
-  history.push("/shoppingcart");
+  history.push("/");
   NotificationManager.success(
     "Transaction Finished",
     `Thank You ${details.payer.name.given_name}`,

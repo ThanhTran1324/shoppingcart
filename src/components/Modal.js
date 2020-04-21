@@ -5,7 +5,7 @@ const Modal = (props) => {
   return ReactDOM.createPortal(
     <div
       onClick={() => history.goBack()}
-      // onClick={() => history.push("/shoppingcart")}
+      // onClick={() => history.push("/")}
       className="ui dimmer modals visible active"
     >
       <div
