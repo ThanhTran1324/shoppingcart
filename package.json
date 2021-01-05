@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://thanhtran1324.github.io/shoppingcart/",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "firebase": "^7.14.0",
     "firebaseui": "^4.5.0",
     "gh-pages": "^2.2.0",
